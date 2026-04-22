@@ -2,6 +2,7 @@ using System;
 using System.Buffers;
 using Unity.VisualScripting.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Mushroom : MonoBehaviour

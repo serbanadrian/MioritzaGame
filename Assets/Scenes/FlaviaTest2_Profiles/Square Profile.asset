@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02b232e56e2c30d438b1a7fe8145da5a, type: 3}
-  m_Name: BlurSO
-  m_EditorClassIdentifier: Assembly-CSharp::BlurSO
-  effectTag: visual_blur
-  duration: 120
-  enable: 0
-  effectSO: {fileID: 11400000}
-  namrEffect: 
-  enabled: 0
+  m_Script: {fileID: 11500000, guid: 8e6292b2c06870d4495f009f912b9600, type: 3}
+  m_Name: Square Profile
+  m_EditorClassIdentifier: Unity.Postprocessing.Runtime::UnityEngine.Rendering.PostProcessing.PostProcessProfile
+  settings: []

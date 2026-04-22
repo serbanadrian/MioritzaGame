@@ -16,6 +16,8 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: c2527fc04a3e8d048ab259bf15d8b455, type: 3}
   insanityPoints: 2
   type: 0
-  changes: 0.8
-  goodEffects: []
-  badEffects: []
+  chance: 1
+  goodEffects:
+  - {fileID: 11400000, guid: e39f0754d404f084ea999573d8038d9f, type: 2}
+  badEffects:
+  - {fileID: 11400000, guid: e39f0754d404f084ea999573d8038d9f, type: 2}

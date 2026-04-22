@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02b232e56e2c30d438b1a7fe8145da5a, type: 3}
-  m_Name: BlurSO
-  m_EditorClassIdentifier: Assembly-CSharp::BlurSO
-  effectTag: visual_blur
-  duration: 120
+  m_Script: {fileID: 11500000, guid: 1a98765687a223046836998b6b32da83, type: 3}
+  m_Name: ChromaticAbberationSO
+  m_EditorClassIdentifier: Assembly-CSharp::ChromaticAbberationSO
+  effectTag: visual_chromatic_ab
+  duration: 30
   enable: 0
   effectSO: {fileID: 11400000}
-  namrEffect: 
-  enabled: 0
