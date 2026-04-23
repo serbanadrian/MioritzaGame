@@ -100,12 +100,12 @@ TextureImporter:
       name: cioban_0
       rect:
         serializedVersion: 2
-        x: 35
-        y: 1589
-        width: 358
-        height: 433
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 50
+        y: 1597
+        width: 365
+        height: 407
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -122,12 +122,12 @@ TextureImporter:
       name: cioban_1
       rect:
         serializedVersion: 2
-        x: 567
-        y: 1591
-        width: 380
-        height: 429
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 584
+        y: 1602
+        width: 367
+        height: 442
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -144,12 +144,12 @@ TextureImporter:
       name: cioban_2
       rect:
         serializedVersion: 2
-        x: 1121
-        y: 1591
-        width: 387
-        height: 423
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 1139
+        y: 1601
+        width: 368
+        height: 443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -166,12 +166,12 @@ TextureImporter:
       name: cioban_3
       rect:
         serializedVersion: 2
-        x: 41
-        y: 1093
-        width: 398
-        height: 426
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 503
+        y: 1075
+        width: 423
+        height: 498
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -185,37 +185,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cioban_4
-      rect:
-        serializedVersion: 2
-        x: 524
-        y: 1091
-        width: 403
-        height: 428
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d2836698ffffffff0800000000000000
-      internalID: -1989789651
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: cioban_5
       rect:
         serializedVersion: 2
-        x: 1099
-        y: 1087
-        width: 371
-        height: 438
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 64
+        y: 1105
+        width: 367
+        height: 406
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -232,12 +210,12 @@ TextureImporter:
       name: cioban_6
       rect:
         serializedVersion: 2
-        x: 21
-        y: 523
-        width: 420
-        height: 454
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 1110
+        y: 1063
+        width: 459
+        height: 482
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -251,37 +229,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cioban_7
-      rect:
-        serializedVersion: 2
-        x: 501
-        y: 511
-        width: 442
-        height: 460
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c9cb4f76000000000800000000000000
-      internalID: 1744092316
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: cioban_8
       rect:
         serializedVersion: 2
-        x: 1057
-        y: 511
-        width: 393
-        height: 448
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 29
+        y: 532
+        width: 401
+        height: 432
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -295,37 +251,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cioban_9
-      rect:
-        serializedVersion: 2
-        x: 15
-        y: 17
-        width: 416
-        height: 454
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3b86dfbdffffffff0800000000000000
-      internalID: -604149581
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: cioban_10
       rect:
         serializedVersion: 2
-        x: 515
-        y: 17
-        width: 408
-        height: 452
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 507
+        y: 522
+        width: 390
+        height: 430
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -342,12 +276,12 @@ TextureImporter:
       name: cioban_11
       rect:
         serializedVersion: 2
-        x: 1059
-        y: 25
-        width: 415
-        height: 448
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 1051
+        y: 530
+        width: 393
+        height: 424
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -356,6 +290,72 @@ TextureImporter:
       bones: []
       spriteID: 91f61c94000000000800000000000000
       internalID: 1237413657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cioban_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 481
+        height: 496
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d40ed9fa8a6c6384e8afb316c193c4f5
+      internalID: -2117353093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cioban_17
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 0
+        width: 504
+        height: 528
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 33}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2d50677f9b4f3f4ca2e1c3029c8a4aa
+      internalID: -1882376232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cioban_19
+      rect:
+        serializedVersion: 2
+        x: 1051
+        y: 0
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 614a5058a868ba34d91b475f6de80cbd
+      internalID: -605555693
       vertices: []
       indices: 
       edges: []
@@ -375,22 +375,24 @@ TextureImporter:
       entries:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      - key: SpriteEditor.SliceOnImport
+        value: False
     nameFileIdTable:
       cioban_0: 1795706931
       cioban_1: 2051853221
       cioban_10: -476811988
       cioban_11: 1237413657
-      cioban_12: 1594674922
-      cioban_13: 303904842
-      cioban_14: -586671121
-      cioban_15: 98391456
-      cioban_16: 2117552133
-      cioban_17: 347925028
-      cioban_18: 1727184868
-      cioban_19: -347939229
+      cioban_12: -1522338366
+      cioban_13: 2092335256
+      cioban_14: 842690764
+      cioban_15: -2117353093
+      cioban_16: 1678381712
+      cioban_17: -1882376232
+      cioban_18: -2048907169
+      cioban_19: -605555693
       cioban_2: 2013467565
-      cioban_20: -1123401122
-      cioban_21: 2062918260
+      cioban_20: 1525108967
+      cioban_21: -1531178482
       cioban_3: -1150621604
       cioban_4: -1989789651
       cioban_5: 1282596423

@@ -4,17 +4,17 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Post-Process
+  - Dog
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Background
+  - 
   - Water
   - UI
-  - Mushrooms
-  - 
-  - 
+  - Player
+  - Sheep
+  - Dog
   - 
   - 
   - 
