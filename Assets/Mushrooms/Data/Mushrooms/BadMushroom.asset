@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BadMushroom
   m_EditorClassIdentifier: Assembly-CSharp::MushroomSO
   mushroomName: 
-  sprite: {fileID: 1412181288, guid: c6bfce91c9fa4eb46bae70388b4dbb70, type: 3}
+  sprite: {fileID: 1313601979, guid: 1eb8151c978d6da41970eb3a02334f97, type: 3}
   insanityPoints: -10
   type: 1
   chance: 1

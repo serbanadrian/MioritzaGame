@@ -17,7 +17,7 @@ public class BlurSO : EffectSO
         if (profile.TryGet<DepthOfField>(out var depthOfField))
         {
             dof = depthOfField;
-            dof.active = true;
+            dof.active = false;
 
             Debug.Log("Depth of Field: " + (dof.active ? "Enabled" : "Disabled"));
         }
@@ -28,7 +28,7 @@ public class BlurSO : EffectSO
         if (profile.TryGet<DepthOfField>(out var depthOfField))
         {
             dof = depthOfField;
-            dof.active = false;
+            dof.active = true;
             Debug.Log("Depth of Field: " + (dof.active ? "Enabled" : "Disabled"));
         }
     }
