@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ea31dda1a0a2934d8e15a77df3be675, type: 3}
+  m_Name: BadMushroom
+  m_EditorClassIdentifier: Assembly-CSharp::MushroomSO
+  mushroomName: 
+  sprite: {fileID: 1412181288, guid: c6bfce91c9fa4eb46bae70388b4dbb70, type: 3}
+  insanityPoints: -10
+  type: 1
+  chance: 1
+  goodEffects:
+  - {fileID: 11400000, guid: 85c43b9dd20c20647b11fb7481122f02, type: 2}
+  - {fileID: 11400000, guid: 2117ec3be08231342adcbc904f8ff709, type: 2}
+  badEffects: []
