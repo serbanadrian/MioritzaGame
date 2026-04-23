@@ -6,7 +6,7 @@ namespace MioritzaGame.Game
     {
         [SerializeField] private LevelSystemConfiguration _configuration;
         [SerializeField] private Transform _roomsParent;
-        [SerializeField, Min(0.1f)] private float _cellSize = 5f;
+        [SerializeField, Min(0.1f)] private float _cellSize = 101f;
 
         private void Start()
         {
