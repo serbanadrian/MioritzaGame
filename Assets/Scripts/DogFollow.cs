@@ -1,110 +1,265 @@
 using UnityEngine;
+using System.Collections;
 
 public class DogFollow : MonoBehaviour
 {
+    [Header("Follow")]
     public Transform player;
     public float speed = 3f;
     public float followDistance = 3f;
-    public Vector2 followOffset;
+    public Vector3 followOffset = new Vector3(-1f, 0f, -1f);
 
+    [Header("Separation")]
     public float separationRadius = 1.2f;
-    public float separationStrength = 2f;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-    private static readonly int IsMovingHash = Animator.StringToHash("Moving");
-    private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
-    [SerializeField] private Animator _animator;
-    private bool Moving = false;
-    private bool FacingBack;
+    public float separationStrength = 1.2f;
 
+    [Header("Smooth Stop")]
     public float arriveRadius = 0.6f;
     public float stopEpsilon = 0.05f;
 
+    [Header("Dog Ability")]
+    public float mushroomStopDistance = 1f;
+    public float abilityCooldown = 15f;
+    public int maxUsesPerLevel = 3;
+
+    [Header("References")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
+
+    private static readonly int MovingHash = Animator.StringToHash("Moving");
+    private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
+    private static readonly int GrowlHash = Animator.StringToHash("Growl");
+    private static readonly int HappyHash = Animator.StringToHash("Happy");
+
     private Rigidbody2D rb;
+
+    private int usesLeft;
+    private bool abilityOnCooldown;
+    private bool isUsingAbility;
+    private bool facingBack;
+
+    private Transform targetMushroom;
+    private Coroutine showMushroomCoroutine;
+
+    private enum DogState
+    {
+        FollowingPlayer,
+        GoingToMushroom,
+        ShowingMushroom
+    }
+
+    private DogState state = DogState.FollowingPlayer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (rb != null) rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+        if (rb != null)
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        usesLeft = maxUsesPerLevel;
+    }
+
+    void OnMouseDown()
+    {
+        TryUseAbility();
     }
 
     void FixedUpdate()
     {
-        if (player == null || rb == null) return;
+        if (player == null) return;
 
-        if (_spriteRenderer == null) _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if (_animator == null) _animator = GetComponentInChildren<Animator>();
+        switch (state)
+        {
+            case DogState.FollowingPlayer:
+                FollowPlayer();
+                break;
 
-        Vector3 targetPosition3D = player.position + new Vector3(followOffset.x, 0f, followOffset.y);
-        Vector3 currentPosition3D = rb.transform.position;
-        Vector3 toTarget3D = targetPosition3D - currentPosition3D;
+            case DogState.GoingToMushroom:
+                GoToMushroom();
+                break;
 
-        toTarget3D.y = 0f;
+            case DogState.ShowingMushroom:
+                break;
+        }
+    }
 
-        var horizontal = Input.GetAxisRaw("Horizontal");
-        var vertical = Input.GetAxisRaw("Vertical");
-        bool isPlayerMoving = horizontal != 0f || vertical != 0f;
+    private void TryUseAbility()
+    {
+        if (abilityOnCooldown) return;
+        if (usesLeft <= 0) return;
+        if (isUsingAbility) return;
 
-        float distanceToTarget = toTarget3D.magnitude;
+        targetMushroom = FindClosestGoodMushroom();
+
+        if (targetMushroom == null)
+        {
+            Debug.Log("No good mushroom found.");
+            return;
+        }
+
+        usesLeft--;
+        abilityOnCooldown = true;
+        isUsingAbility = true;
+        state = DogState.GoingToMushroom;
+
+        StartCoroutine(CooldownRoutine());
+    }
+
+    private Transform FindClosestGoodMushroom()
+    {
+        GameObject[] mushrooms = GameObject.FindGameObjectsWithTag("GoodMushroom");
+
+        Transform closest = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject mushroom in mushrooms)
+        {
+            Vector3 diff = mushroom.transform.position - transform.position;
+            float distance = diff.magnitude;
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = mushroom.transform;
+            }
+        }
+
+        return closest;
+    }
+
+    private void FollowPlayer()
+    {
+        Vector3 targetPosition = player.position + followOffset;
+        Vector3 toTarget = targetPosition - transform.position;
 
         Vector3 followVelocity = Vector3.zero;
+        float distanceToTarget = toTarget.magnitude;
 
-        // Dog logic: Only follow if player is moving or out of bounds
-        if (isPlayerMoving || distanceToTarget > followDistance * 1.5f)
+        if (distanceToTarget > followDistance)
         {
-            if (distanceToTarget > followDistance)
-            {
-                Moving = true;
-                float t = 1f;
+            float speedMultiplier = 1f;
 
-                if (distanceToTarget < arriveRadius)
-                    t = Mathf.InverseLerp(0f, arriveRadius, distanceToTarget);
+            if (distanceToTarget < arriveRadius)
+                speedMultiplier = Mathf.InverseLerp(0f, arriveRadius, distanceToTarget);
 
-                followVelocity = toTarget3D.normalized * (speed * t);
+            followVelocity = toTarget.normalized * speed * speedMultiplier;
 
-                if (distanceToTarget < stopEpsilon)
-                    followVelocity = Vector3.zero;
-            }
-            else
-            {
-                Moving = false;
+            if (distanceToTarget < stopEpsilon)
                 followVelocity = Vector3.zero;
-            }
+        }
+
+        Vector3 separationVelocity = GetSeparationDirection3D() * separationStrength * speed;
+
+        Vector3 finalVelocity = followVelocity + separationVelocity;
+
+        if (finalVelocity.magnitude > speed)
+            finalVelocity = finalVelocity.normalized * speed;
+
+        transform.position += finalVelocity * Time.fixedDeltaTime;
+
+        bool moving = finalVelocity.sqrMagnitude > 0.001f;
+        UpdateAnimation(finalVelocity, moving);
+    }
+
+    private void GoToMushroom()
+    {
+        if (targetMushroom == null)
+        {
+            ReturnToFollow();
+            return;
+        }
+
+        Vector3 toMushroom = targetMushroom.position - transform.position;
+        float distance = toMushroom.magnitude;
+
+        if (distance > mushroomStopDistance)
+        {
+            Vector3 moveVelocity = toMushroom.normalized * speed;
+            Vector3 separationVelocity = GetSeparationDirection3D() * separationStrength * speed;
+
+            Vector3 finalVelocity = moveVelocity + separationVelocity;
+
+            if (finalVelocity.magnitude > speed)
+                finalVelocity = finalVelocity.normalized * speed;
+
+            transform.position += finalVelocity * Time.fixedDeltaTime;
+
+            UpdateAnimation(finalVelocity, true);
         }
         else
         {
-            Moving = false;
-            followVelocity = Vector3.zero;
+            if (showMushroomCoroutine == null)
+                showMushroomCoroutine = StartCoroutine(ShowMushroomRoutine());
         }
-
-        Vector3 separationDir = GetSeparationDirection3D();
-        Vector3 separationVelocity = separationDir * separationStrength * speed;
-
-        Vector3 finalVelocity = followVelocity + separationVelocity;
-        if (finalVelocity.magnitude > speed) finalVelocity = finalVelocity.normalized * speed;
-
-        // Visual updates identical to sheep
-        if (Moving || isPlayerMoving)
-        {
-            if (vertical > 0f) FacingBack = true;
-            else if (vertical < 0f) FacingBack = false;
-
-            if (_spriteRenderer != null)
-            {
-                if (horizontal > 0f) _spriteRenderer.flipX = FacingBack;
-                else if (horizontal < 0f) _spriteRenderer.flipX = !FacingBack;
-            }
-        }
-
-        if (_animator != null)
-        {
-            _animator.SetBool(IsMovingHash, Moving);
-            _animator.SetBool(FacingBackHash, FacingBack);
-        }
-
-        transform.position += finalVelocity * Time.fixedDeltaTime;
     }
 
-    Vector3 GetSeparationDirection3D()
+    private IEnumerator ShowMushroomRoutine()
+    {
+        state = DogState.ShowingMushroom;
+
+        if (animator != null)
+        {
+            animator.SetBool(MovingHash, false);
+            animator.SetTrigger(GrowlHash);
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        if (animator != null)
+            animator.SetTrigger(HappyHash);
+
+        yield return new WaitForSeconds(1f);
+
+        showMushroomCoroutine = null;
+        ReturnToFollow();
+    }
+
+    private void ReturnToFollow()
+    {
+        targetMushroom = null;
+        isUsingAbility = false;
+        state = DogState.FollowingPlayer;
+    }
+
+    private IEnumerator CooldownRoutine()
+    {
+        yield return new WaitForSeconds(abilityCooldown);
+        abilityOnCooldown = false;
+    }
+
+    private void UpdateAnimation(Vector3 velocity, bool moving)
+    {
+        if (animator != null)
+            animator.SetBool(MovingHash, moving);
+
+        if (!moving || velocity.sqrMagnitude < 0.001f)
+            return;
+
+        if (velocity.z > 0.1f)
+            facingBack = true;
+        else if (velocity.z < -0.1f)
+            facingBack = false;
+
+        if (spriteRenderer != null)
+        {
+            if (velocity.x > 0.1f)
+                spriteRenderer.flipX = facingBack;
+            else if (velocity.x < -0.1f)
+                spriteRenderer.flipX = !facingBack;
+        }
+
+        if (animator != null)
+            animator.SetBool(FacingBackHash, facingBack);
+    }
+
+    private Vector3 GetSeparationDirection3D()
     {
         Collider[] nearby = Physics.OverlapSphere(transform.position, separationRadius);
         Vector3 separation = Vector3.zero;
@@ -115,21 +270,18 @@ public class DogFollow : MonoBehaviour
 
             if (other.CompareTag("Sheep") || other.CompareTag("Dog"))
             {
-                Vector3 diff = (transform.position - other.transform.position);
-                diff.y = 0f;
+                Vector3 diff = transform.position - other.transform.position;
                 float distance = diff.magnitude;
 
                 if (distance > 0.01f)
-                {
                     separation += diff.normalized / distance;
-                }
             }
         }
 
         return separation.sqrMagnitude > 0f ? separation.normalized : Vector3.zero;
     }
 
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, separationRadius);
