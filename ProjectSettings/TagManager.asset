@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Dog
+  - Post-Process
+  - ActiveEffects
   layers:
   - Default
   - TransparentFX
