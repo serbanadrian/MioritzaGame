@@ -1,3 +1,4 @@
+using UnityEditor.MPE;
 using UnityEngine;
 
 public class SheepFollow : MonoBehaviour
@@ -9,6 +10,13 @@ public class SheepFollow : MonoBehaviour
 
     public float separationRadius = 1.2f;
     public float separationStrength = 2f;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    private static readonly int IsMovingHash = Animator.StringToHash("Moving");
+    private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
+    [SerializeField] private Animator _sheep;
+    private bool Moving = false;
+    private bool FacingBack = false;
+
 
     // nou
     public float arriveRadius = 0.6f;     // cât de aproape începe să încetinească
@@ -16,6 +24,7 @@ public class SheepFollow : MonoBehaviour
 
     public bool isFollowing = false;
     private Rigidbody2D rb;
+
 
     void Start()
     {
@@ -31,10 +40,14 @@ public class SheepFollow : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (!isFollowing || player == null || rb == null) return;
 
         Vector2 targetPosition = (Vector2)player.position + followOffset;
         Vector2 toTarget = targetPosition - rb.position;
+        var horizontal = Input.GetAxisRaw("Horizontal");
+        var vertical = Input.GetAxisRaw("Vertical");
+
         float distanceToTarget = toTarget.magnitude;
 
         // 1) FOLLOW cu decelerare (arrive)
@@ -42,6 +55,7 @@ public class SheepFollow : MonoBehaviour
 
         if (distanceToTarget > followDistance)
         {
+            Moving = true;
             // viteză maximă
             float t = 1f;
 
@@ -54,6 +68,12 @@ public class SheepFollow : MonoBehaviour
             // dacă e foarte aproape, oprește ca să nu “vâneze” punctul
             if (distanceToTarget < stopEpsilon)
                 followVelocity = Vector2.zero;
+            if (vertical > 0f) FacingBack = true;
+            else if (vertical < 0f) FacingBack = false;
+        }
+        else
+        {
+            Moving = false;
         }
 
         // 2) SEPARATION (ca viteză, nu direcție normalizată)
@@ -63,7 +83,16 @@ public class SheepFollow : MonoBehaviour
         // 3) combină și limitează
         Vector2 finalVelocity = followVelocity + separationVelocity;
         finalVelocity = Vector2.ClampMagnitude(finalVelocity, speed);
-
+        if (_sheep != null)
+        {
+            _sheep.SetBool(IsMovingHash, Moving);
+            _sheep.SetBool(FacingBackHash, FacingBack);
+        }
+        if (_spriteRenderer != null)
+        {
+            if (horizontal > 0f) _spriteRenderer.flipX = FacingBack;
+            else if (horizontal < 0f) _spriteRenderer.flipX = FacingBack == false;
+        }
         rb.MovePosition(rb.position + finalVelocity * Time.fixedDeltaTime);
     }
 
