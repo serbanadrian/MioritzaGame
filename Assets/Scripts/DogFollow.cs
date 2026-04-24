@@ -12,7 +12,7 @@ public class DogFollow : MonoBehaviour
     private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
     [SerializeField] private Animator _animator;
     private bool Moving = false;
-    private bool FacingBack = false;
+    private bool FacingBack;
 
     void Update()
     {

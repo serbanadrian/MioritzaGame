@@ -7,6 +7,7 @@ namespace MioritzaGame.Game
         [SerializeField] private LevelSystemConfiguration _configuration;
         [SerializeField] private Transform _roomsParent;
         [SerializeField, Min(0.1f)] private float _cellSize = 101f;
+        [SerializeField] private MushroomSpawner _mushroomSpawner;
 
         private void Start()
         {
@@ -32,7 +33,13 @@ namespace MioritzaGame.Game
                     continue;
 
                 var position = new Vector3(cell.x * _cellSize, 0f, cell.y * _cellSize);
-                Instantiate(room._roomPrefab, position, Quaternion.identity, parent);
+                var roomInstance = Instantiate(room._roomPrefab, position, Quaternion.identity, parent);
+
+                if (_mushroomSpawner != null)
+                {
+                    // Pass 'parent' to avoid inheriting the room's weird scale (100, 0.01, 100)
+                    _mushroomSpawner.SpawnMushroomsInRoom(position, parent);
+                }
             }
         }
 

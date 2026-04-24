@@ -15,7 +15,7 @@ public class SheepFollow : MonoBehaviour
     private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
     [SerializeField] private Animator _sheep;
     private bool Moving = false;
-    private bool FacingBack = false;
+    private bool FacingBack;
 
 
     // nou
