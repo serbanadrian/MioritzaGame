@@ -22,7 +22,7 @@ public class SheepFollow : MonoBehaviour
     public float arriveRadius = 0.6f;     // cât de aproape începe să încetinească
     public float stopEpsilon = 0.05f;     // sub distanța asta, se oprește
 
-    private bool isFollowing = false;
+    public bool isFollowing = false;
     private Rigidbody2D rb;
 
 
@@ -43,15 +43,25 @@ public class SheepFollow : MonoBehaviour
 
         if (!isFollowing || player == null || rb == null) return;
 
-        Vector2 targetPosition = (Vector2)player.position + followOffset;
-        Vector2 toTarget = targetPosition - rb.position;
+        // Player is moving on X and Z axis, but Sheep uses a 2D Rigidbody.
+        // If the game uses a 3D world (X/Z plane), a 2D Rigidbody (X/Y) will not work properly here natively without syncing.
+        // It looks like the sheep operates entirely on XY physics or was meant to.
+        // Let's assume you wanted XZ 3D movement but mapped to Vector2 for the logic.
+        Vector3 targetPosition3D = player.position + new Vector3(followOffset.x, 0f, followOffset.y);
+
+        Vector3 currentPosition3D = rb.transform.position;
+        Vector3 toTarget3D = targetPosition3D - currentPosition3D;
+
+        // Zero out the Y axis since floor is flat
+        toTarget3D.y = 0f;
+
         var horizontal = Input.GetAxisRaw("Horizontal");
         var vertical = Input.GetAxisRaw("Vertical");
 
-        float distanceToTarget = toTarget.magnitude;
+        float distanceToTarget = toTarget3D.magnitude;
 
         // 1) FOLLOW cu decelerare (arrive)
-        Vector2 followVelocity = Vector2.zero;
+        Vector3 followVelocity = Vector3.zero;
 
         if (distanceToTarget > followDistance)
         {
@@ -63,26 +73,29 @@ public class SheepFollow : MonoBehaviour
             if (distanceToTarget < arriveRadius)
                 t = Mathf.InverseLerp(0f, arriveRadius, distanceToTarget);
 
-            followVelocity = toTarget.normalized * (speed * t);
+            followVelocity = toTarget3D.normalized * (speed * t);
 
             // dacă e foarte aproape, oprește ca să nu “vâneze” punctul
             if (distanceToTarget < stopEpsilon)
-                followVelocity = Vector2.zero;
+                followVelocity = Vector3.zero;
+
             if (vertical > 0f) FacingBack = true;
             else if (vertical < 0f) FacingBack = false;
         }
         else
         {
             Moving = false;
+            followVelocity = Vector3.zero;
         }
 
-        // 2) SEPARATION (ca viteză, nu direcție normalizată)
-        Vector2 separationDir = GetSeparationDirection();
-        Vector2 separationVelocity = separationDir * separationStrength * speed;
+        // 2) SEPARATION
+        Vector3 separationDir = GetSeparationDirection3D();
+        Vector3 separationVelocity = separationDir * separationStrength * speed;
 
         // 3) combină și limitează
-        Vector2 finalVelocity = followVelocity + separationVelocity;
-        finalVelocity = Vector2.ClampMagnitude(finalVelocity, speed);
+        Vector3 finalVelocity = followVelocity + separationVelocity;
+        if (finalVelocity.magnitude > speed) finalVelocity = finalVelocity.normalized * speed;
+
         if (_sheep != null)
         {
             _sheep.SetBool(IsMovingHash, Moving);
@@ -93,21 +106,27 @@ public class SheepFollow : MonoBehaviour
             if (horizontal > 0f) _spriteRenderer.flipX = FacingBack;
             else if (horizontal < 0f) _spriteRenderer.flipX = FacingBack == false;
         }
-        rb.MovePosition(rb.position + finalVelocity * Time.fixedDeltaTime);
+
+        // If Rigidbody2D is used, it only moves XY. If the floor is XZ, we should physically move the transform or apply it properly.
+        // Assuming your game is effectively a 3D space with sprites (2.5D):
+        transform.position += finalVelocity * Time.fixedDeltaTime;
+        // rb.velocity is generally for 2D XY physics, so transforming position manually prevents them skipping below map.
     }
 
-    Vector2 GetSeparationDirection()
+    Vector3 GetSeparationDirection3D()
     {
-        Collider2D[] nearby = Physics2D.OverlapCircleAll(transform.position, separationRadius);
-        Vector2 separation = Vector2.zero;
+        // For 3D 2.5D overlap
+        Collider[] nearby = Physics.OverlapSphere(transform.position, separationRadius);
+        Vector3 separation = Vector3.zero;
 
-        foreach (Collider2D other in nearby)
+        foreach (Collider other in nearby)
         {
             if (other.gameObject == gameObject) continue;
 
             if (other.CompareTag("Sheep") || other.CompareTag("Dog"))
             {
-                Vector2 diff = (Vector2)(transform.position - other.transform.position);
+                Vector3 diff = (transform.position - other.transform.position);
+                diff.y = 0f;
                 float distance = diff.magnitude;
 
                 if (distance > 0.01f)
@@ -117,7 +136,7 @@ public class SheepFollow : MonoBehaviour
             }
         }
 
-        return separation.sqrMagnitude > 0f ? separation.normalized : Vector2.zero;
+        return separation.sqrMagnitude > 0f ? separation.normalized : Vector3.zero;
     }
 
     void OnDrawGizmosSelected()
