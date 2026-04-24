@@ -20,4 +20,4 @@ MonoBehaviour:
   goodEffects:
   - {fileID: 11400000, guid: e39f0754d404f084ea999573d8038d9f, type: 2}
   badEffects:
-  - {fileID: 11400000, guid: e39f0754d404f084ea999573d8038d9f, type: 2}
+  - {fileID: 11400000, guid: 2117ec3be08231342adcbc904f8ff709, type: 2}

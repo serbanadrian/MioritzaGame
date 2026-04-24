@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1731203538384930723}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -960, y: -540, z: 0}
+  m_LocalPosition: {x: -7, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 1313601979, guid: 1eb8151c978d6da41970eb3a02334f97, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mushroom
   data: {fileID: 11400000, guid: 9be887bcec9a5df43a7db3cf74d4a4a8, type: 2}
-  effects: {fileID: 0}
+  effects: {fileID: 818318881478121201, guid: 2c219725b97836b4daedc40cddebf488, type: 3}
 --- !u!65 &128519943361396331
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -126,5 +126,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.1623306, y: 2.7981312, z: 0.2}
-  m_Center: {x: 0.16782546, y: 0.045907617, z: 0}
+  m_Size: {x: 1.0610852, y: 1.1011152, z: 0.2}
+  m_Center: {x: -0.0014665127, y: 0.010624886, z: 0}
