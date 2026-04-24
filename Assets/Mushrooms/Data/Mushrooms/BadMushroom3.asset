@@ -19,7 +19,9 @@ MonoBehaviour:
   chance: 1
   goodEffects:
   - {fileID: 11400000, guid: e260972568745b74eb87d7f398b0f892, type: 2}
+  - {fileID: 11400000, guid: b893f525566fa204d94c350ffdab6a59, type: 2}
   badEffects:
   - {fileID: 11400000, guid: 85c43b9dd20c20647b11fb7481122f02, type: 2}
   - {fileID: 11400000, guid: e80d8e69001e6b24192b225c9659df33, type: 2}
   - {fileID: 11400000, guid: e260972568745b74eb87d7f398b0f892, type: 2}
+  - {fileID: 11400000, guid: b893f525566fa204d94c350ffdab6a59, type: 2}

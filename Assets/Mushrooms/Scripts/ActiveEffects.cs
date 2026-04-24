@@ -43,7 +43,7 @@ public class ActiveEffects : MonoBehaviour
     {
         List<EffectSO> effectList;
         player.InsanityChange(data.InsanityPoints);
-        float roll = Random.Range(0, 1);
+        float roll = Random.Range(0f, 1f);
         if (roll < data.chance)
         {
             effectList = data.goodEffects;
@@ -52,55 +52,35 @@ public class ActiveEffects : MonoBehaviour
         {
             effectList = data.badEffects;
         }
-        foreach (EffectSO effect in effectList)
-        {
-            if (currentEffects == null)
-            {
-                effect.Apply(player, profile);
-                //StartCoroutine(ApplyEffectDuration(effect));
-                currentEffects.Add(effect.effectTag, effect);
-            }
-            else
-            {
-                //to see if they overlap or not
-                if (currentEffects.ContainsKey(effect.effectTag))
-                {
-                    currentEffects[effect.effectTag].Remove(player, profile);
-                }
-                else
-                {
-                    effect.Apply(player, profile);
-                    //  StartCoroutine(ApplyEffectDuration(effect));
-                    currentEffects.Add(effect.effectTag, effect);
-                }
-            }
-        }
 
         foreach (EffectSO effect in effectList)
         {
-            if (currentEffects == null)
+            // If an effect with this tag is already active, remove the old one first
+            if (currentEffects.ContainsKey(effect.effectTag))
+            {
+                currentEffects[effect.effectTag].Remove(player, profile);
+                currentEffects.Remove(effect.effectTag);
+            }
+
+            // Apply the new effect and track it
+            effect.Apply(player, profile);
+            currentEffects.Add(effect.effectTag, effect);
+
+            // Start the duration timer if it's not permanent
+            if (effect.duration > 0)
             {
                 StartCoroutine(ApplyEffectDuration(effect));
             }
-            else
-            {
-                //to see if they overlap or not
-                if (!currentEffects.ContainsKey(effect.effectTag))
-                {
-                    currentEffects[effect.effectTag].Remove(player, profile);
-                }
-                else
-                {
-                    StartCoroutine(ApplyEffectDuration(effect));
-                }
-            }
         }
     }
+
     public IEnumerator ApplyEffectDuration(EffectSO effect)
     {
-        if (effect.duration != 0)
+        yield return new WaitForSeconds(effect.duration);
+
+        // Only remove it if it hasn't been overwritten by a new effect of the same type
+        if (currentEffects.ContainsKey(effect.effectTag) && currentEffects[effect.effectTag] == effect)
         {
-            yield return new WaitForSeconds(effect.duration);
             effect.Remove(player, profile);
             currentEffects.Remove(effect.effectTag);
         }
