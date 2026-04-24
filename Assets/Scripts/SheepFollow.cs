@@ -22,7 +22,7 @@ public class SheepFollow : MonoBehaviour
     public float arriveRadius = 0.6f;     // cât de aproape începe să încetinească
     public float stopEpsilon = 0.05f;     // sub distanța asta, se oprește
 
-    private bool isFollowing = false;
+    public bool isFollowing = false;
     private Rigidbody2D rb;
 
 
