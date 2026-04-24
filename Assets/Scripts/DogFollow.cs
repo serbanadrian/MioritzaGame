@@ -1,71 +1,213 @@
 using UnityEngine;
+using System.Collections;
 
 public class DogFollow : MonoBehaviour
 {
     public Transform player;
 
     public float speed = 3f;
-    public float followDistance = 3f;   // cand incepe sa te urmareasca
-    public float stopDistance = 2f;   // unde se opreste
+    public float followDistance = 3f;
+    public float stopDistance = 2f;
+    public float mushroomStopDistance = 1f;
+
+    public float abilityCooldown = 15f;
+    public int maxUsesPerLevel = 3;
+
     [SerializeField] private SpriteRenderer _spriteRenderer;
-    private static readonly int IsMovingHash = Animator.StringToHash("Moving");
-    private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
     [SerializeField] private Animator _animator;
-    private bool Moving = false;
-    private bool FacingBack = false;
+
+    private static readonly int MovingHash = Animator.StringToHash("Moving");
+    private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
+    private static readonly int GrowlHash = Animator.StringToHash("Growl");
+    private static readonly int HappyHash = Animator.StringToHash("Happy");
+
+    private int usesLeft;
+    private bool abilityOnCooldown = false;
+    private bool isUsingAbility = false;
+
+    private enum DogState
+    {
+        FollowingPlayer,
+        GoingToMushroom,
+        ShowingMushroom
+    }
+
+    private DogState state = DogState.FollowingPlayer;
+    private Transform targetMushroom;
+
+    void Start()
+    {
+        usesLeft = maxUsesPerLevel;
+    }
+
+    void OnMouseDown()
+    {
+        TryUseAbility();
+    }
 
     void Update()
     {
         if (player == null) return;
 
-        float distance = Vector2.Distance(transform.position, player.position);
-        var horizontal = Input.GetAxisRaw("Horizontal");
-        var vertical = Input.GetAxisRaw("Vertical");
-        if (vertical > 0f) FacingBack = true;
-        else if (vertical < 0f) FacingBack = false;
-        if (_spriteRenderer != null)
+        if (state == DogState.FollowingPlayer)
         {
-            if (horizontal > 0f) _spriteRenderer.flipX = FacingBack;
-            else if (horizontal < 0f) _spriteRenderer.flipX = FacingBack == false;
+            FollowPlayer();
+        }
+        else if (state == DogState.GoingToMushroom)
+        {
+            GoToMushroom();
+        }
+    }
+
+    void TryUseAbility()
+    {
+        if (abilityOnCooldown) return;
+        if (usesLeft <= 0) return;
+        if (isUsingAbility) return;
+
+        targetMushroom = FindClosestGoodMushroom();
+
+        if (targetMushroom == null) return;
+
+        usesLeft--;
+        isUsingAbility = true;
+        abilityOnCooldown = true;
+        state = DogState.GoingToMushroom;
+
+        StartCoroutine(CooldownRoutine());
+    }
+
+    Transform FindClosestGoodMushroom()
+    {
+        GameObject[] mushrooms = GameObject.FindGameObjectsWithTag("GoodMushroom");
+
+        Transform closest = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject mushroom in mushrooms)
+        {
+            float distance = Vector2.Distance(transform.position, mushroom.transform.position);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = mushroom.transform;
+            }
         }
 
-        // daca e prea departe -> vine dupa player
+        return closest;
+    }
+
+    void FollowPlayer()
+    {
+        float distance = Vector2.Distance(transform.position, player.position);
+        Vector2 moveDirection = Vector2.zero;
+        bool moving = false;
+
         if (distance > followDistance)
         {
+            moveDirection = ((Vector2)player.position - (Vector2)transform.position).normalized;
 
-            MoveTowardsPlayer();
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                player.position,
+                speed * Time.deltaTime
+            );
+
+            moving = true;
         }
-        // daca e prea aproape -> se retrage putin (optional)
         else if (distance < stopDistance)
         {
+            moveDirection = ((Vector2)transform.position - (Vector2)player.position).normalized;
 
-            MoveAwayFromPlayer();
+            transform.position += (Vector3)(moveDirection * speed * Time.deltaTime);
+            moving = true;
         }
+
+        UpdateAnimation(moveDirection, moving);
+    }
+
+    void GoToMushroom()
+    {
+        if (targetMushroom == null)
+        {
+            ReturnToFollow();
+            return;
+        }
+
+        Vector2 moveDirection = ((Vector2)targetMushroom.position - (Vector2)transform.position).normalized;
+        float distance = Vector2.Distance(transform.position, targetMushroom.position);
+
+        if (distance > mushroomStopDistance)
+        {
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                targetMushroom.position,
+                speed * Time.deltaTime
+            );
+
+            UpdateAnimation(moveDirection, true);
+        }
+        else
+        {
+            StartCoroutine(ShowMushroomRoutine());
+        }
+    }
+
+    IEnumerator ShowMushroomRoutine()
+    {
+        state = DogState.ShowingMushroom;
+
         if (_animator != null)
         {
-            _animator.SetBool(IsMovingHash, Moving);
-            _animator.SetBool(FacingBackHash, FacingBack);
+            _animator.SetBool(MovingHash, false);
+            _animator.SetTrigger(GrowlHash);
         }
 
-        // altfel -> sta (zona ideala)
+        yield return new WaitForSeconds(1f);
+
+        if (_animator != null)
+        {
+            _animator.SetTrigger(HappyHash);
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        ReturnToFollow();
     }
 
-    void MoveTowardsPlayer()
+    void ReturnToFollow()
     {
-
-        transform.position = Vector2.MoveTowards(
-            transform.position,
-            player.position,
-            speed * Time.deltaTime
-        );
-        Moving = true;
+        targetMushroom = null;
+        isUsingAbility = false;
+        state = DogState.FollowingPlayer;
     }
 
-    void MoveAwayFromPlayer()
+    IEnumerator CooldownRoutine()
     {
-        Vector2 direction = (transform.position - player.position).normalized;
+        yield return new WaitForSeconds(abilityCooldown);
+        abilityOnCooldown = false;
+    }
 
-        transform.position += (Vector3)(direction * speed * Time.deltaTime);
-        Moving = false;
+    void UpdateAnimation(Vector2 moveDirection, bool moving)
+    {
+        if (moving && moveDirection != Vector2.zero)
+        {
+            bool facingBack = moveDirection.y > 0.1f;
+
+            if (_spriteRenderer != null)
+            {
+                if (moveDirection.x > 0.1f)
+                    _spriteRenderer.flipX = false;
+                else if (moveDirection.x < -0.1f)
+                    _spriteRenderer.flipX = true;
+            }
+
+            if (_animator != null)
+                _animator.SetBool(FacingBackHash, facingBack);
+        }
+
+        if (_animator != null)
+            _animator.SetBool(MovingHash, moving);
     }
 }
