@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace MioritzaGame.Game
 {
+    [RequireComponent(typeof(Rigidbody))]
     public sealed class PlayerController : MonoBehaviour
     {
-        [SerializeField, Min(0f)] private float _moveSpeed = 5f;
-        [SerializeField, Min(1)] private int _maxHealth = 100;
+        [SerializeField] private PlayerConfiguration _configuration;
         [SerializeField] private Animator _animator;
         [SerializeField] private SpriteRenderer _spriteRenderer;
-        [SerializeField] private Rigidbody2D _rigidbody2D;
+        [SerializeField] private Rigidbody _rigidbody;
 
         private static readonly int IsMovingHash = Animator.StringToHash("IsMoving");
         private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
@@ -18,17 +18,21 @@ namespace MioritzaGame.Game
         private bool _isFacingBack;
         private int _currentHealth;
 
-        public int MaxHealth => _maxHealth;
+        public int MaxHealth => _configuration != null ? _configuration.MaxHealth : 0;
         public int CurrentHealth => _currentHealth;
 
         private void Awake()
         {
-            _camera = Camera.main;
-            _currentHealth = _maxHealth;
+            if (_configuration == null)
+            {
+                Debug.LogError($"{nameof(PlayerController)} missing {nameof(_configuration)}.");
+                enabled = false;
+                return;
+            }
 
-            if (_animator == null) _animator = GetComponent<Animator>();
-            if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
-            if (_rigidbody2D == null) _rigidbody2D = GetComponent<Rigidbody2D>();
+            if (_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
+            _camera = Camera.main;
+            _currentHealth = _configuration.MaxHealth;
         }
 
         private void Update()
@@ -36,39 +40,32 @@ namespace MioritzaGame.Game
             _input.x = Input.GetAxisRaw("Horizontal");
             _input.y = Input.GetAxisRaw("Vertical");
 
-            if (_rigidbody2D == null) MoveCameraRelative();
-
             UpdateFacingAndAnimation();
         }
 
         private void FixedUpdate()
         {
-            if (_rigidbody2D == null) return;
+            if (_camera == null) return;
 
-            var velocity = _input.sqrMagnitude > 1f ? _input.normalized : _input;
-            _rigidbody2D.linearVelocity = velocity * _moveSpeed;
-        }
+            var camTransform = _camera.transform;
 
-        private void MoveCameraRelative()
-        {
-            if (_camera == null)
-            {
-                Debug.LogError($"{nameof(PlayerController)} missing main {nameof(Camera)} for camera-relative movement.");
-                return;
-            }
+            var forward = camTransform.up;
+            forward.y = 0f;
+            if (forward.sqrMagnitude < 0.0001f)
+                forward = camTransform.forward;
+            forward.y = 0f;
+            forward.Normalize();
 
-            var camRight = _camera.transform.right;
-            camRight.y = 0f;
-            camRight.Normalize();
+            var right = camTransform.right;
+            right.y = 0f;
+            right.Normalize();
 
-            var camForward = _camera.transform.forward;
-            camForward.y = 0f;
-            camForward.Normalize();
-
-            var direction = camRight * _input.x + camForward * _input.y;
+            var direction = right * _input.x + forward * _input.y;
             if (direction.sqrMagnitude > 1f) direction.Normalize();
 
-            transform.position += direction * (_moveSpeed * Time.deltaTime);
+            var horizontalVelocity = direction * _configuration.MoveSpeed;
+            var current = _rigidbody.linearVelocity;
+            _rigidbody.linearVelocity = new Vector3(horizontalVelocity.x, current.y, horizontalVelocity.z);
         }
 
         private void UpdateFacingAndAnimation()
@@ -93,6 +90,25 @@ namespace MioritzaGame.Game
             }
         }
 
+        public void Spawn(Vector3 worldPosition, EntryFacing facing)
+        {
+            if (_rigidbody != null)
+            {
+                _rigidbody.position = worldPosition;
+                _rigidbody.linearVelocity = Vector3.zero;
+            }
+            transform.position = worldPosition;
+
+            _isFacingBack = facing == EntryFacing.Back;
+            if (_animator != null) _animator.SetBool(FacingBackHash, _isFacingBack);
+
+            if (_spriteRenderer != null)
+            {
+                if (facing == EntryFacing.Left) _spriteRenderer.flipX = true;
+                else if (facing == EntryFacing.Right) _spriteRenderer.flipX = false;
+            }
+        }
+
         public void TakeDamage(int amount)
         {
             if (amount <= 0)
@@ -101,7 +117,7 @@ namespace MioritzaGame.Game
                 return;
             }
 
-            _currentHealth = Mathf.Clamp(_currentHealth - amount, 0, _maxHealth);
+            _currentHealth = Mathf.Clamp(_currentHealth - amount, 0, _configuration.MaxHealth);
             if (_currentHealth == 0) Die();
         }
 
@@ -113,7 +129,7 @@ namespace MioritzaGame.Game
                 return;
             }
 
-            _currentHealth = Mathf.Clamp(_currentHealth + amount, 0, _maxHealth);
+            _currentHealth = Mathf.Clamp(_currentHealth + amount, 0, _configuration.MaxHealth);
         }
 
         private void Die()

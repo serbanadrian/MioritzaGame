@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 326bad735a7cb8f468cbc8b4d0ed4918, type: 3}
+  m_Name: EntryConfig_Level02
+  m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.EntryConfiguration
+  _placements:
+  - _sprite: {fileID: -2120426404, guid: 9da98894e983c7e459552f48324e5c05, type: 3}
+    _positions:
+    - {x: -0.3985, y: 419, z: -0.107}
+    - {x: -0.3985, y: 298, z: -0.164}
+    - {x: -0.398, y: 23, z: -0.2}
+    - {x: -0.343, y: 2, z: -0.241}
+    - {x: -0.393, y: 2, z: -0.243}
+    _spawnOffset: {x: 0.00790289, y: 93, z: 0.060689732}
+    _facing: 1
+    _sortingOrder: 0
+  - _sprite: {fileID: -350338258, guid: 9da98894e983c7e459552f48324e5c05, type: 3}
+    _positions:
+    - {x: -0.091, y: 1, z: -0.327}
+    - {x: -0.117, y: 1, z: -0.352}
+    - {x: -0.142, y: 1, z: -0.353}
+    - {x: -0.18, y: 1, z: -0.348}
+    - {x: -0.226, y: 1, z: -0.331}
+    _spawnOffset: {x: -0.014976159, y: 94, z: 0.12897424}
+    _facing: 1
+    _sortingOrder: 0
+  - _sprite: {fileID: -1642783126, guid: 9da98894e983c7e459552f48324e5c05, type: 3}
+    _positions:
+    - {x: 0.41151816, y: 551, z: -0.05504834}
+    - {x: 0.3523, y: 551, z: -0.101}
+    - {x: 0.3262, y: 551, z: -0.183}
+    - {x: 0.3147, y: 551, z: -0.253}
+    - {x: 0.2762, y: 551, z: -0.239}
+    _spawnOffset: {x: -0.13669111, y: -456, z: 0.069610894}
+    _facing: 0
+    _sortingOrder: 0
+  - _sprite: {fileID: 49417893, guid: 9da98894e983c7e459552f48324e5c05, type: 3}
+    _positions:
+    - {x: 0.145, y: 1, z: -0.324}
+    - {x: 0.117, y: 1, z: -0.337}
+    - {x: 0.077, y: 1, z: -0.343}
+    - {x: 0.023, y: 1, z: -0.348}
+    - {x: -0.019, y: 1, z: -0.341}
+    _spawnOffset: {x: -0.11901591, y: 94, z: 0.11047232}
+    _facing: 0
+    _sortingOrder: 0
+  - _sprite: {fileID: 1918511276, guid: 9da98894e983c7e459552f48324e5c05, type: 3}
+    _positions:
+    - {x: -0.025356902, y: 6, z: 0.4504873}
+    - {x: -0.107, y: 6, z: 0.45}
+    - {x: -0.181, y: 6, z: 0.45}
+    - {x: -0.272, y: 6, z: 0.45}
+    - {x: -0.432, y: 6, z: 0.45}
+    _spawnOffset: {x: -0.083028644, y: 89, z: -0.074388534}
+    _facing: 2
+    _sortingOrder: 2
+  _minCount: 2
+  _maxCount: 4
+  _scale: 3
+  _yOffset: 0.05

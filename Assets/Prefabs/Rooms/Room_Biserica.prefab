@@ -27,11 +27,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016904999416334934}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 0.01, z: 100}
+  m_LocalScale: {x: 80, y: 0.01, z: 56}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8254600372043992917}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1044907468202099570
@@ -112,3 +113,94 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4591664060346245658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8254600372043992917}
+  - component: {fileID: 4215062218883701335}
+  - component: {fileID: 114386274226051485}
+  m_Layer: 0
+  m_Name: DeadZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8254600372043992917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591664060346245658}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1239648711897670734}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &4215062218883701335
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591664060346245658}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!114 &114386274226051485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591664060346245658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa951e82c4b3d134daf74fd3a9cf1576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.PolygonDeadZone
+  _localPoints:
+  - {x: -0.26444328, y: 0, z: 0.48478836}
+  - {x: -0.49678206, y: 0, z: 0.487329}
+  - {x: -0.47483122, y: 0, z: 0.039683256}
+  - {x: -0.34348404, y: 0, z: -0.16287743}
+  - {x: -0.12948385, y: 0, z: -0.26248565}
+  - {x: 0.08639787, y: 0, z: -0.28061888}
+  - {x: 0.1896416, y: 0, z: -0.26921013}
+  - {x: 0.34866813, y: 0, z: -0.2296898}
+  - {x: 0.34866813, y: 0, z: -0.2296898}
+  - {x: 0.34866813, y: 0, z: -0.2296898}
+  - {x: 0.34866813, y: 0, z: -0.2296898}
+  - {x: 0.5047601, y: 0, z: -0.108040065}
+  - {x: 0.501072, y: 0, z: 0.029229958}
+  - {x: 0.45192453, y: 0, z: 0.045545988}
+  - {x: 0.21395925, y: 0, z: 0.011256252}
+  - {x: 0.11049699, y: 0, z: -0.047959175}
+  - {x: 0.01774589, y: 0, z: -0.02732096}
+  - {x: -0.14521347, y: 0, z: 0.055490192}
+  - {x: -0.08742757, y: 0, z: 0.2567603}
+  - {x: -0.040747654, y: 0, z: 0.34153366}
+  - {x: -0.075702064, y: 0, z: 0.3968389}
+  - {x: -0.08033892, y: 0, z: 0.4889639}
+  _height: 357.5
