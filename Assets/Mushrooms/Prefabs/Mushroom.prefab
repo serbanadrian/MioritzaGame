@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mushroom
   data: {fileID: 11400000, guid: 9be887bcec9a5df43a7db3cf74d4a4a8, type: 2}
-  effects: {fileID: 818318881478121201, guid: 2c219725b97836b4daedc40cddebf488, type: 3}
+  effects: {fileID: 0}
   _pickupRadius: 4
 --- !u!65 &128519943361396331
 BoxCollider:

@@ -27,6 +27,7 @@ namespace MioritzaGame.Audio
 
         private void Start()
         {
+            DontDestroyOnLoad(this);
             // Initialize mixer values from PlayerPrefs
             OnMusicVolumeChanged(AudioSettings.GetMusicVolume());
             OnMasterVolumeChanged(AudioSettings.GetMasterVolume());
