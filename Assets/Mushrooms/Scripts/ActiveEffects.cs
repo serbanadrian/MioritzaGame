@@ -24,12 +24,22 @@ public class ActiveEffects : MonoBehaviour
         if (existing != null)
         {
             var v = existing.GetComponent<Volume>();
-            if (v != null && v.profile != null) return EnsureOverrides(v.profile);
+            if (v != null && v.profile != null)
+            {
+                // Clone the profile so we don't modify a shared asset in-place (which
+                // can disable post-processing for other scenes/objects).
+                var cloned = Object.Instantiate(v.profile);
+                return EnsureOverrides(cloned);
+            }
         }
 
         foreach (var v in Object.FindObjectsByType<Volume>(FindObjectsSortMode.None))
         {
-            if (v.profile != null) return EnsureOverrides(v.profile);
+            if (v.profile != null)
+            {
+                var cloned = Object.Instantiate(v.profile);
+                return EnsureOverrides(cloned);
+            }
         }
 
         var go = new GameObject("AutoPostProcessVolume");

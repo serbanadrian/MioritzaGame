@@ -9,6 +9,7 @@ TagManager:
   - ActiveEffects
   - Sheep
   - GoodMushroom
+  - Water
   layers:
   - Default
   - TransparentFX

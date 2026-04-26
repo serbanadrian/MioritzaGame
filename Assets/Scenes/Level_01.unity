@@ -210,7 +210,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 9.821886
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -225,8 +225,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 200
-  field of view: 60
-  orthographic: 1
+  field of view: 101.4
+  orthographic: 0
   orthographic size: 28
   m_Depth: -1
   m_CullingMask:
@@ -279,10 +279,10 @@ MonoBehaviour:
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
+  m_VolumeTrigger: {fileID: 1863941358}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 1
+  m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -504,6 +504,11 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!82 &459871921 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2301889945465755842, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
+  m_PrefabInstance: {fileID: 2589391784041742686}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &538965781
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +568,7 @@ GameObject:
   - component: {fileID: 832575520}
   m_Layer: 0
   m_Name: Global Volume
-  m_TagString: Untagged
+  m_TagString: ActiveEffects
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -613,7 +618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActiveEffects
   player: {fileID: 2007530337}
-  consumeAudioSource: {fileID: 0}
+  consumeAudioSource: {fileID: 459871921}
 --- !u!1 &1221087460
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,38 +795,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
-      propertyPath: _gameOverVideo
-      value: 
-      objectReference: {fileID: 32900000, guid: 09d025ab720221e4b99b753c0831a2af, type: 3}
-    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
-      propertyPath: _startingInsanityPoints
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
-      propertyPath: '_levelIcons.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2800000, guid: 50158375c04d0c640bd3f75c1b3f62f9, type: 3}
-    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
-      propertyPath: '_levelIcons.Array.data[1]'
-      value: 
-      objectReference: {fileID: 2800000, guid: b072e54de0269414ba71956480b05514, type: 3}
-    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
-      propertyPath: '_levelIcons.Array.data[2]'
-      value: 
-      objectReference: {fileID: 2800000, guid: 9ce748020653e8543846b1d8313f4acb, type: 3}
-    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
-      propertyPath: '_levelIcons.Array.data[3]'
-      value: 
-      objectReference: {fileID: 2800000, guid: 1f6ee1e45e4a917449d6a5a67596ca9f, type: 3}
-    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
-      propertyPath: '_levelIcons.Array.data[4]'
-      value: 
-      objectReference: {fileID: 2800000, guid: 4663246728de2bd4c891c11584f94344, type: 3}
-    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
-      propertyPath: '_levelIcons.Array.data[5]'
-      value: 
-      objectReference: {fileID: 2800000, guid: b3198b770143bcd43a5a330c8368b0d4, type: 3}
     - target: {fileID: 6986643213429564109, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

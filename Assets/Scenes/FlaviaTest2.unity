@@ -287,15 +287,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SheepFollow
   player: {fileID: 328324158}
-  speed: 3
+  speedMultiplier: 1.2
+  fallbackSpeed: 5
   followDistance: 3
-  followOffset: {x: 0, y: 0}
+  followOffset: {x: 0, y: 0, z: -1}
   separationRadius: 1.2
   separationStrength: 2
-  _spriteRenderer: {fileID: 71310392}
-  _sheep: {fileID: 71310391}
   arriveRadius: 0.6
   stopEpsilon: 0.05
+  pickupRadius: 4
+  spriteRenderer: {fileID: 0}
+  animator: {fileID: 0}
   isFollowing: 0
 --- !u!95 &71310391
 Animator:
@@ -579,6 +581,7 @@ GameObject:
   - component: {fileID: 328324163}
   - component: {fileID: 328324162}
   - component: {fileID: 328324164}
+  - component: {fileID: 328324165}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -598,7 +601,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb6a305e21942e42a2e9c0e63c5ec15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerContext
-  insanity: 20
+  _insanityPoints: 0
+  _startingInsanityPoints: -1
+  _pointsPerLevel: 100
+  _maxLevel: 6
+  _showNauseaOverlay: 1
+  _levelIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _iconSize: 220
+  _iconPadding: {x: 20, y: 20}
+  _gameOverVideo: {fileID: 0}
 --- !u!4 &328324158
 Transform:
   m_ObjectHideFlags: 0
@@ -629,9 +646,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74c6dd02b742f9f44a5735c262f6b90e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.PlayerController
-  _moveSpeed: 5
+  _configuration: {fileID: 0}
   _animator: {fileID: 101653928}
   _spriteRenderer: {fileID: 101653929}
+  _rigidbody: {fileID: 0}
 --- !u!166 &328324160
 AudioChorusFilter:
   m_ObjectHideFlags: 0
@@ -700,6 +718,33 @@ AudioEchoFilter:
   m_DecayRatio: 1
   m_WetMix: 1
   m_DryMix: 1
+--- !u!54 &328324165
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328324156}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &331776728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -885,7 +930,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 200
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 12
   m_Depth: -1
   m_CullingMask:
@@ -1158,6 +1203,7 @@ MonoBehaviour:
   maxUsesPerLevel: 3
   spriteRenderer: {fileID: 990946298}
   animator: {fileID: 990946297}
+  barkAudioSource: {fileID: 0}
 --- !u!95 &990946297
 Animator:
   serializedVersion: 7
@@ -1343,6 +1389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActiveEffects
   player: {fileID: 328324157}
+  consumeAudioSource: {fileID: 0}
 --- !u!114 &1156438157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1614,6 +1661,8 @@ MonoBehaviour:
   _roomsParent: {fileID: 2052902133}
   _cellSize: 101
   _mushroomSpawner: {fileID: 2052902134}
+  _entrySpawner: {fileID: 0}
+  _player: {fileID: 0}
 --- !u!4 &2052902133
 Transform:
   m_ObjectHideFlags: 0
@@ -1654,6 +1703,7 @@ MonoBehaviour:
   _maxGoodPerRoom: 4
   _minBadPerRoom: 0
   _maxBadPerRoom: 3
+  _spawnZone: {fileID: 0}
   _spawnAreaHalfSize: 48
   _spawnYOffset: 1
   sceneEffects: {fileID: 1556446585}

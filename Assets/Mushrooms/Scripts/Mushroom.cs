@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Mushroom : MonoBehaviour
@@ -13,6 +14,9 @@ public class Mushroom : MonoBehaviour
     private SpriteRenderer sprite;
     private bool _playerInRange;
     private Transform _player;
+
+    // Fired when a good mushroom is eaten by water. Passes the world position where it happened.
+    public static event Action<Vector3> OnGoodEatenByWater;
 
     void Awake()
     {
@@ -35,7 +39,6 @@ public class Mushroom : MonoBehaviour
         }
         else if (effects == null)
         {
-            effects = GetComponentInChildren<ActiveEffects>();
             if (effects == null)
             {
                 var go = GameObject.FindGameObjectWithTag("ActiveEffects");
@@ -62,14 +65,14 @@ public class Mushroom : MonoBehaviour
 
     private void TryFindPlayer()
     {
-        var pc = Object.FindAnyObjectByType<MioritzaGame.Game.PlayerController>();
+        var pc = UnityEngine.Object.FindAnyObjectByType<MioritzaGame.Game.PlayerController>();
         if (pc == null) return;
         _player = pc.transform;
     }
 
     private void Consume()
     {
-        if (effects == null) effects = Object.FindAnyObjectByType<ActiveEffects>(FindObjectsInactive.Include);
+        if (effects == null) effects = UnityEngine.Object.FindAnyObjectByType<ActiveEffects>(FindObjectsInactive.Include);
         if (effects != null && effects.gameObject.activeInHierarchy == false)
         {
             Debug.LogWarning($"{nameof(Mushroom)} located inactive {nameof(ActiveEffects)} — activating it.");
@@ -131,5 +134,40 @@ public class Mushroom : MonoBehaviour
         style.normal.textColor = Color.white;
         style.alignment = TextAnchor.MiddleCenter;
         GUI.Label(rect, label, style);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other == null) return;
+
+        // Detect water by tag or by name containing "Apa" (Romanian for water)
+        if (other.CompareTag("Water"))
+        {
+            if (data != null && data.type == MushroomType.Good)
+            {
+                if (effects == null) effects = UnityEngine.Object.FindAnyObjectByType<ActiveEffects>(FindObjectsInactive.Include);
+                if (effects != null) effects.ConsumeMushroom(data);
+                Destroy(gameObject);
+                Destroy(other.gameObject);
+                OnGoodEatenByWater?.Invoke(transform.position);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other == null) return;
+        var go = other.gameObject;
+        if (go.CompareTag("Water"))
+        {
+            if (data != null && data.type == MushroomType.Good)
+            {
+                if (effects == null) effects = UnityEngine.Object.FindAnyObjectByType<ActiveEffects>(FindObjectsInactive.Include);
+                if (effects != null) effects.ConsumeMushroom(data);
+                Destroy(gameObject);
+                Destroy(go);
+                OnGoodEatenByWater?.Invoke(transform.position);
+            }
+        }
     }
 }

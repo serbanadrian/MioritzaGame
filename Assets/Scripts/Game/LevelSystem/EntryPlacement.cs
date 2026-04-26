@@ -13,4 +13,5 @@ namespace MioritzaGame.Game
         public Direction _direction;
         public int _sortingOrder;
     }
+
 }

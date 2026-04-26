@@ -14,10 +14,10 @@ namespace MioritzaGame.Game
 
         private static readonly Direction[] AllDirections =
         {
-            Direction.North,
-            Direction.South,
-            Direction.East,
-            Direction.West,
+            MioritzaGame.Game.Direction.North,
+            MioritzaGame.Game.Direction.South,
+            MioritzaGame.Game.Direction.East,
+            MioritzaGame.Game.Direction.West,
         };
 
         private void Start()
@@ -40,8 +40,8 @@ namespace MioritzaGame.Game
 
             var roomCenters = new Dictionary<Vector2Int, Vector3>();
             var roomInstances = new Dictionary<Vector2Int, GameObject>();
-            var doors = new Dictionary<(Vector2Int cell, Direction direction), SpawnedEntry>();
-            var deadEnds = new List<(Vector2Int cell, Direction direction)>();
+            var doors = new Dictionary<(Vector2Int cell, MioritzaGame.Game.Direction direction), SpawnedEntry>();
+            var deadEnds = new List<(Vector2Int cell, MioritzaGame.Game.Direction direction)>();
             var startSpawn = default(SpawnedEntry);
             var hasStartSpawn = false;
 
@@ -112,14 +112,14 @@ namespace MioritzaGame.Game
             }
         }
 
-        private Vector2Int? SpawnLevelExit(List<(Vector2Int cell, Direction direction)> deadEnds, Dictionary<Vector2Int, GameObject> roomInstances, Transform parent)
+        private Vector2Int? SpawnLevelExit(List<(Vector2Int cell, MioritzaGame.Game.Direction direction)> deadEnds, Dictionary<Vector2Int, GameObject> roomInstances, Transform parent)
         {
             var exitScene = _configuration.ExitSceneName;
             if (string.IsNullOrEmpty(exitScene) == true) return null;
             if (_entrySpawner == null) return null;
             if (deadEnds.Count == 0) return null;
 
-            var candidates = new List<(Vector2Int cell, Direction direction)>();
+            var candidates = new List<(Vector2Int cell, MioritzaGame.Game.Direction direction)>();
             foreach (var deadEnd in deadEnds)
                 if (deadEnd.cell != Vector2Int.zero) candidates.Add(deadEnd);
             if (candidates.Count == 0) candidates = deadEnds;
