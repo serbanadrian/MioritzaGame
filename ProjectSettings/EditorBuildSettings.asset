@@ -14,5 +14,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ForestScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 8c6a459fcd7c2c6478f6945a10b683c1
+  - enabled: 1
+    path: Assets/Scenes/Level_01.unity
+    guid: b4997eadea789f44191e14ba79118808
+  - enabled: 1
+    path: Assets/Scenes/Level_02.unity
+    guid: 7a0533a38e5e5ff43af6487eeb97bec3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
