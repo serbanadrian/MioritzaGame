@@ -388,6 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.BridgeTrigger
   _cutsceneClip: {fileID: 32900000, guid: 810840efe99d7404f98fa5881e627411, type: 3}
+  _nextSceneOnCross: Cutscene_Puzzle2
 --- !u!114 &7791020671132611832
 MonoBehaviour:
   m_ObjectHideFlags: 0

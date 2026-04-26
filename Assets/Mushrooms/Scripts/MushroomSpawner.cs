@@ -41,7 +41,7 @@ namespace MioritzaGame
             return instance;
         }
 
-        public void SpawnMushroomsInRoom(Vector3 roomCenter, Transform parent = null, PolygonDeadZone spawnZone = null)
+        public void SpawnMushroomsInRoom(Vector3 roomCenter, Transform parent = null, PolygonDeadZone spawnZone = null, bool excludeCleanser = false)
         {
             // If no parent provided, create a runtime parent container (acts like a generated prefab at runtime)
             if (parent == null)
@@ -51,10 +51,17 @@ namespace MioritzaGame
             }
             _currentParent = parent;
 
+            var goodPool = _goodMushrooms;
+            if (excludeCleanser == true && goodPool != null)
+            {
+                goodPool = new List<MushroomSO>();
+                foreach (var m in _goodMushrooms) if (m != null && m.cleansToxicWater == false) goodPool.Add(m);
+            }
+
             int goodCount = UnityEngine.Random.Range(_minGoodPerRoom, _maxGoodPerRoom + 1);
             for (int i = 0; i < goodCount; i++)
             {
-                SpawnMushroom(roomCenter, _goodMushrooms, parent, true, spawnZone);
+                SpawnMushroom(roomCenter, goodPool, parent, true, spawnZone);
             }
 
             int badCount = UnityEngine.Random.Range(_minBadPerRoom, _maxBadPerRoom + 1);
@@ -64,7 +71,7 @@ namespace MioritzaGame
             }
         }
 
-        public void SpawnMushroomsAtPoints(List<Transform> spawnPoints, Transform parent = null, bool excludeCleanser = false)
+        public void SpawnMushroomsAtPoints(List<Transform> spawnPoints, Transform parent = null, bool excludeCleanser = false, List<MushroomSO> disguisePool = null)
         {
             if (_mushroomPrefab == null) return;
             if (spawnPoints == null || spawnPoints.Count == 0) return;
@@ -92,6 +99,7 @@ namespace MioritzaGame
                 }
 
                 var mushroomSO = pool[UnityEngine.Random.Range(0, pool.Count)];
+                if (mushroomSO != null && mushroomSO.cleansToxicWater == true) mushroomSO = DisguiseMushroom(mushroomSO, disguisePool);
                 var spawnPos = point.position;
                 spawnPos.y = _spawnYOffset;
 
@@ -101,6 +109,20 @@ namespace MioritzaGame
                 if (isGood == true) instance.gameObject.tag = "GoodMushroom";
                 instance.gameObject.name = string.IsNullOrEmpty(mushroomSO.mushroomName) == false ? mushroomSO.mushroomName : mushroomSO.name;
             }
+        }
+
+        private static MushroomSO DisguiseMushroom(MushroomSO source, List<MushroomSO> disguisePool)
+        {
+            if (source == null) return null;
+            if (disguisePool == null || disguisePool.Count == 0) return source;
+
+            var pick = disguisePool[UnityEngine.Random.Range(0, disguisePool.Count)];
+            if (pick == null || string.IsNullOrEmpty(pick.mushroomName) == true) return source;
+
+            var clone = UnityEngine.Object.Instantiate(source);
+            clone.mushroomName = pick.mushroomName;
+            clone.sprite = pick.sprite != null ? pick.sprite : source.sprite;
+            return clone;
         }
 
         private void SpawnMushroom(Vector3 roomCenter, List<MushroomSO> options, Transform parent, bool isGood, PolygonDeadZone spawnZone)

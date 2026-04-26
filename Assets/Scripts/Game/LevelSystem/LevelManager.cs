@@ -15,6 +15,8 @@ namespace MioritzaGame.Game
         [SerializeField] private MushroomSO _fakeHintMushroom;
         [SerializeField, Min(0)] private int _fakeHintCount = 2;
         [SerializeField] private List<MushroomSO> _hintDisguisePool;
+        [SerializeField] private MushroomSO _guaranteedCleanserMushroom;
+        [SerializeField, Min(0)] private int _cleanserMinCellDistance = 2;
 
         private static readonly Direction[] AllDirections =
         {
@@ -64,9 +66,8 @@ namespace MioritzaGame.Game
                     var points = new List<Transform>();
                     foreach (Transform child in roomInstance.transform)
                         if (child.name.StartsWith("MushroomSpawn") == true) points.Add(child);
-                    var isSpawnCell = cell == Vector2Int.zero;
-                    if (points.Count > 0) _mushroomSpawner.SpawnMushroomsAtPoints(points, parent, isSpawnCell);
-                    else _mushroomSpawner.SpawnMushroomsInRoom(position, parent);
+                    if (points.Count > 0) _mushroomSpawner.SpawnMushroomsAtPoints(points, parent, true, _hintDisguisePool);
+                    else _mushroomSpawner.SpawnMushroomsInRoom(position, parent, null, true);
                 }
 
                 if (_entrySpawner == null) continue;
@@ -96,6 +97,7 @@ namespace MioritzaGame.Game
             SpawnSheep(cells, exitCell, roomCenters, roomInstances, doors, parent);
             var hintCell = SpawnGuaranteedHint(cells, exitCell, roomCenters, roomInstances, parent);
             SpawnFakeHints(cells, exitCell, hintCell, roomCenters, roomInstances, parent);
+            SpawnGuaranteedCleanser(cells, exitCell, hintCell, roomCenters, roomInstances, parent);
 
             foreach (var entry in doors)
             {
@@ -176,6 +178,38 @@ namespace MioritzaGame.Game
             }
             spawnPosition.y = 0.01f;
             Instantiate(prefab, spawnPosition, prefab.transform.rotation, parent);
+        }
+
+        private void SpawnGuaranteedCleanser(List<Vector2Int> cells, Vector2Int? exitCell, Vector2Int? hintCell, Dictionary<Vector2Int, Vector3> roomCenters, Dictionary<Vector2Int, GameObject> roomInstances, Transform parent)
+        {
+            if (_guaranteedCleanserMushroom == null) return;
+            if (_mushroomSpawner == null) return;
+
+            var minDist = Mathf.Max(1, _cleanserMinCellDistance);
+            var candidates = new List<Vector2Int>();
+            foreach (var cell in cells)
+            {
+                if (cell == Vector2Int.zero) continue;
+                if (hintCell.HasValue == true && cell == hintCell.Value) continue;
+                if (Mathf.Abs(cell.x) + Mathf.Abs(cell.y) < minDist) continue;
+                candidates.Add(cell);
+            }
+            if (candidates.Count == 0)
+            {
+                foreach (var cell in cells)
+                {
+                    if (cell == Vector2Int.zero) continue;
+                    if (hintCell.HasValue == true && cell == hintCell.Value) continue;
+                    candidates.Add(cell);
+                }
+            }
+            if (candidates.Count == 0) return;
+
+            var pick = candidates[Random.Range(0, candidates.Count)];
+            if (roomCenters.TryGetValue(pick, out var center) == false) return;
+
+            var spawnPosition = PickFreeSpawnPoint(pick, center, roomInstances);
+            _mushroomSpawner.SpawnSingle(DisguiseHintData(_guaranteedCleanserMushroom), spawnPosition, parent, isGood: true);
         }
 
         private Vector2Int? SpawnGuaranteedHint(List<Vector2Int> cells, Vector2Int? exitCell, Dictionary<Vector2Int, Vector3> roomCenters, Dictionary<Vector2Int, GameObject> roomInstances, Transform parent)
