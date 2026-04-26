@@ -15,5 +15,5 @@ MonoBehaviour:
   _roomPool:
   - _roomPrefab: {fileID: 2016904999416334934, guid: b67b4c3e390952b489a8c0762d3b8a12, type: 3}
     _spawnWeight: 1
-  _minRooms: 5
-  _maxRooms: 6
+  _minRooms: 9
+  _maxRooms: 15
