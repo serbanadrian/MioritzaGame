@@ -1,9 +1,5 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal; // For URP
-// or
-using UnityEngine.Rendering.HighDefinition; // For HDRP
 
 interface IEffect
 {

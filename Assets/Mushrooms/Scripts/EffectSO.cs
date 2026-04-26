@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal; // For URP
-// or
-using UnityEngine.Rendering.HighDefinition; // For HDRP
 
 [CreateAssetMenu(fileName = "EffectSO", menuName = "Scriptable Objects/EffectSO")]
 public abstract class EffectSO : ScriptableObject, IEffect

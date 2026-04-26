@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal; // For URP
-// or
-using UnityEngine.Rendering.HighDefinition; // For HDRP
 
 [CreateAssetMenu(fileName = "ChorusSO", menuName = "Scriptable Objects/ChorusSO")]
 public class ChorusSO : EffectSO
