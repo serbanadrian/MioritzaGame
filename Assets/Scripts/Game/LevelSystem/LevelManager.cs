@@ -12,6 +12,14 @@ namespace MioritzaGame.Game
         [SerializeField] private EntrySpawner _entrySpawner;
         [SerializeField] private Transform _player;
 
+        private static readonly Direction[] AllDirections =
+        {
+            Direction.North,
+            Direction.South,
+            Direction.East,
+            Direction.West,
+        };
+
         private void Start()
         {
             SpawnRooms();
@@ -28,42 +36,63 @@ namespace MioritzaGame.Game
             var count = Random.Range(_configuration.MinRooms, _configuration.MaxRooms + 1);
             var parent = _roomsParent != null ? _roomsParent : transform;
             var cells = RoomLayoutGenerator.Generate(count);
-            var startingRoomEntries = new List<PlayerSpawnPoint>();
-            var isFirstRoom = true;
+            var occupied = new HashSet<Vector2Int>(cells);
+
+            var roomCenters = new Dictionary<Vector2Int, Vector3>();
+            var doors = new Dictionary<(Vector2Int cell, Direction direction), SpawnedEntry>();
+            var startSpawn = default(SpawnedEntry);
+            var hasStartSpawn = false;
 
             foreach (var cell in cells)
             {
                 var room = PickWeightedRoom();
-                if (room._roomPrefab == null)
-                    continue;
+                if (room._roomPrefab == null) continue;
 
                 var position = new Vector3(cell.x * _cellSize, 0f, cell.y * _cellSize);
                 var roomInstance = Instantiate(room._roomPrefab, position, room._roomPrefab.transform.rotation, parent);
+                roomCenters[cell] = position;
 
                 if (_mushroomSpawner != null)
-                {
-                    // Pass 'parent' to avoid inheriting the room's weird scale (100, 0.01, 100)
                     _mushroomSpawner.SpawnMushroomsInRoom(position, parent);
-                }
 
-                if (_entrySpawner != null)
+                if (_entrySpawner == null) continue;
+
+                foreach (var direction in AllDirections)
                 {
-                    var spawned = _entrySpawner.SpawnEntriesInRoom(roomInstance.transform, parent);
-                    if (isFirstRoom == true && spawned != null) startingRoomEntries.AddRange(spawned);
-                }
+                    var neighbor = cell + direction.ToCellOffset();
+                    if (occupied.Contains(neighbor) == false) continue;
 
-                isFirstRoom = false;
+                    var spawned = _entrySpawner.SpawnEntryForDirection(roomInstance.transform, parent, direction);
+                    if (spawned._door == null) continue;
+
+                    doors[(cell, direction)] = spawned;
+                    if (cell == Vector2Int.zero && hasStartSpawn == false)
+                    {
+                        startSpawn = spawned;
+                        hasStartSpawn = true;
+                    }
+                }
             }
 
-            if (_player != null && startingRoomEntries.Count > 0)
+            foreach (var entry in doors)
             {
-                var spawnPoint = startingRoomEntries[Random.Range(0, startingRoomEntries.Count)];
-                var spawnPosition = spawnPoint._position;
-                spawnPosition.y = _player.position.y;
+                var (cell, direction) = entry.Key;
+                var neighborCell = cell + direction.ToCellOffset();
+                var neighborKey = (neighborCell, direction.Opposite());
+                if (doors.TryGetValue(neighborKey, out var neighborDoor) == false) continue;
 
+                var cameraTarget = roomCenters.TryGetValue(neighborCell, out var center) ? center : entry.Value._spawnPosition;
+                entry.Value._door.SetTarget(neighborDoor._door, neighborDoor._spawnPosition, neighborDoor._facing, cameraTarget);
+            }
+
+            if (_player != null && hasStartSpawn == true)
+            {
+                var spawnPosition = startSpawn._spawnPosition;
+                spawnPosition.y = _player.position.y;
                 var controller = _player.GetComponent<PlayerController>();
-                if (controller != null) controller.Spawn(spawnPosition, spawnPoint._facing);
+                if (controller != null) controller.Spawn(spawnPosition, startSpawn._facing);
                 else _player.position = spawnPosition;
+                if (startSpawn._door != null) startSpawn._door.SuppressUntil(Time.time + 1f);
             }
         }
 

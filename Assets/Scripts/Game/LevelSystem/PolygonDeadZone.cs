@@ -15,6 +15,8 @@ namespace MioritzaGame.Game
         };
 
         [SerializeField, Min(1f)] private float _height = 500f;
+        [SerializeField, Tooltip("Walls only (player walks inside). Off = solid block (player can't enter).")]
+        private bool _isHollow;
 
         private MeshCollider _collider;
         private Mesh _mesh;
@@ -50,23 +52,54 @@ namespace MioritzaGame.Game
                 vertices[i + count] = new Vector3(p.x, _height, p.z);
             }
 
-            var triangles = new int[count * 12];
-            var t = 0;
-            for (var i = 0; i < count; i++)
+            int[] triangles;
+            if (_isHollow == true)
             {
-                var next = (i + 1) % count;
-                triangles[t++] = i;
-                triangles[t++] = next + count;
-                triangles[t++] = next;
-                triangles[t++] = i;
-                triangles[t++] = i + count;
-                triangles[t++] = next + count;
-                triangles[t++] = next;
-                triangles[t++] = next + count;
-                triangles[t++] = i;
-                triangles[t++] = next + count;
-                triangles[t++] = i + count;
-                triangles[t++] = i;
+                triangles = new int[count * 12];
+                var t = 0;
+                for (var i = 0; i < count; i++)
+                {
+                    var next = (i + 1) % count;
+                    triangles[t++] = i;
+                    triangles[t++] = next + count;
+                    triangles[t++] = next;
+                    triangles[t++] = i;
+                    triangles[t++] = i + count;
+                    triangles[t++] = next + count;
+                    triangles[t++] = next;
+                    triangles[t++] = next + count;
+                    triangles[t++] = i;
+                    triangles[t++] = next + count;
+                    triangles[t++] = i + count;
+                    triangles[t++] = i;
+                }
+            }
+            else
+            {
+                triangles = new int[count * 6 + (count - 2) * 6];
+                var t = 0;
+                for (var i = 0; i < count; i++)
+                {
+                    var next = (i + 1) % count;
+                    triangles[t++] = i;
+                    triangles[t++] = next + count;
+                    triangles[t++] = next;
+                    triangles[t++] = i;
+                    triangles[t++] = i + count;
+                    triangles[t++] = next + count;
+                }
+                for (var i = 1; i < count - 1; i++)
+                {
+                    triangles[t++] = count;
+                    triangles[t++] = count + i;
+                    triangles[t++] = count + i + 1;
+                }
+                for (var i = 1; i < count - 1; i++)
+                {
+                    triangles[t++] = 0;
+                    triangles[t++] = i + 1;
+                    triangles[t++] = i;
+                }
             }
 
             _mesh.vertices = vertices;
@@ -74,14 +107,14 @@ namespace MioritzaGame.Game
             _mesh.RecalculateNormals();
 
             _collider.sharedMesh = null;
-            _collider.convex = false;
+            _collider.convex = _isHollow == false;
             _collider.sharedMesh = _mesh;
         }
 
         private void OnDrawGizmos()
         {
             if (_localPoints == null || _localPoints.Length < 2) return;
-            Gizmos.color = new Color(1f, 0.2f, 0.2f, 0.9f);
+            Gizmos.color = _isHollow == true ? new Color(0.4f, 1f, 0.4f, 0.9f) : new Color(1f, 0.2f, 0.2f, 0.9f);
             Gizmos.matrix = transform.localToWorldMatrix;
             for (var i = 0; i < _localPoints.Length; i++)
             {
