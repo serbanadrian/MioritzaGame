@@ -1,0 +1,104 @@
+Audio name:  dogbark.wav  
+Source:https://freesound.org/people/crazymonke9/sounds/418108/ 
+Title: dog tripple bark by crazymonke9
+
+Audio name:   agressivedoggrowl.wav
+Source: https://freesound.org/people/abhisheky948/sounds/625501/
+Title: Animal Dog Bark And Growl 01.wav by abhisheky948
+
+Audio name:   owl.wav
+Source: https://pixabay.com/sound-effects/nature-owl-hooting-223549/
+Title: owl hooting
+
+Audio name:   sheep.wav
+Source: https://pixabay.com/sound-effects/nature-sheep-bleating-223324/
+Title: sheep bleating
+
+Audio name:   pickmushroom.wav
+Source: https://pixabay.com/sound-effects/film-special-effects-pick-92276/
+Title: pick
+
+Audio name: mushroomshimmer.wav
+Source: https://pixabay.com/sound-effects/shimmering-object-79354/
+Title: Shimmering Object 
+
+Audio name: happy_ending1.wav
+Source: https://opengameart.org/content/epilogue
+Title: Epilogue
+
+Audio name:  happy_ending2.wav
+Source: https://opengameart.org/content/the-end
+Title: The End
+
+Audio name: neutral_ending1.wav
+Source: https://pixabay.com/music/introoutro-orchestral-outro-music-121121/?utm_source=chatgpt.com
+Title:  Orchestral Outro Music by TheoJT
+
+Audio name: sad_ending1.wav
+Source: https://opengameart.org/content/sad-game-over
+Title: Sad game over
+
+Audio name: sad_ending2.wav
+Source: https://opengameart.org/content/void
+Title:  Hardmoon Arjen Schumacher
+
+Audio name: cavewind.wav
+Source: https://pixabay.com/sound-effects/cavewind-ambience-271124/
+Title: Cavewind Ambience
+
+Audio name: cavewindhorror.wav
+Source: https://pixabay.com/sound-effects/horror-m%c3%basica-de-cueva-260193/
+Title: Música de cueva
+
+Audio name: drippingwatercave1.wav
+Source: https://pixabay.com/sound-effects/nature-droplets-in-a-cave-482871/
+Title: Droplets in a Cave 
+
+Audio name: drippingwatercave2.wav
+Source: https://pixabay.com/sound-effects/film-special-effects-inside-a-cave-effect-240264/
+Title: Inside a Cave Effect
+
+Audio name: atepoisonmushroom.wav
+Source: https://pixabay.com/sound-effects/film-special-effects-vertigo-bender-272814/
+Title: Vertigo Bender
+
+Audio name: deathgroan1.wav
+Source: https://opengameart.org/content/death-sounds-male-audio-pack
+Title: 17._death_groan_male
+
+Audio name: deathgrown2.wav
+Source: https://opengameart.org/content/death-sounds-male-audio-pack
+Title: 18._death_groan_male
+
+Audio name: eatmushroom.wav
+Source: https://pixabay.com/sound-effects/people-eat-323883/
+Title: Eat 
+
+Audio name: flutehallucination.wav
+Source: https://pixabay.com/sound-effects/film-special-effects-pan-flute-transition-b-1-188138/
+Title: Pan Flute Transition B 1 
+
+Audio name: flutehallucination2.wav
+Source: https://pixabay.com/sound-effects/musical-flute-vibrato-41319/
+Title: flute vibrato 
+
+Audio name: shepardtone.wav
+Source: https://pixabay.com/sound-effects/horror-016380-shepard-tone-esquewav-55943/
+Title: 016380_Shepard tone-esque.wav 
+
+Audio name: flutemelody1.wav
+Source: https://pixabay.com/sound-effects/musical-flute-melody-280554/
+Title: Flute Melody 
+
+Audio name: flutemelody2.wav
+Source: https://pixabay.com/sound-effects/musical-dizi-flute-02-72563/
+Title: DIZI FLUTE 02
+
+Audio name: reverbfootsteps.wav
+Source: https://pixabay.com/sound-effects/horror-reverb-footstep-cave-basement-abandoned-place-315027/
+Title: Reverb Footstep - Cave, Basement, Abandoned Place
+
+Audio name: mumalaugh.wav
+Source: https://pixabay.com/sound-effects/horror-witch-laughing-104760/
+Title: witch (laughing)
+
