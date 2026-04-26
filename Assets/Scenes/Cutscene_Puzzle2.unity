@@ -367,7 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b32217a58aa1748910923bd6791040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.CutsceneManager
-  _configuration: {fileID: 11400000, guid: 8f2a3bbd867fe5a4db846a5082412f62, type: 2}
+  _configuration: {fileID: 11400000, guid: 8a3f4e2d9c1b5a7d8e6f2c3b4a5d1e09, type: 2}
   _playOnStart: 1
   _nextSceneOnEnd: Level_03
 --- !u!4 &1689252263
