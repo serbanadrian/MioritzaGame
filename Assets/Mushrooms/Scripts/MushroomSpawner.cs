@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using MioritzaGame.Game; // Access to PolygonDeadZone
+using System;
 
 namespace MioritzaGame
 {
@@ -31,13 +32,21 @@ namespace MioritzaGame
 
         public void SpawnMushroomsInRoom(Vector3 roomCenter, Transform parent = null, PolygonDeadZone spawnZone = null)
         {
-            int goodCount = Random.Range(_minGoodPerRoom, _maxGoodPerRoom + 1);
+            // If no parent provided, create a runtime parent container (acts like a generated prefab at runtime)
+            if (parent == null)
+            {
+                var parentObj = new GameObject($"Mushrooms_{Guid.NewGuid()}");
+                parent = parentObj.transform;
+            }
+            _currentParent = parent;
+
+            int goodCount = UnityEngine.Random.Range(_minGoodPerRoom, _maxGoodPerRoom + 1);
             for (int i = 0; i < goodCount; i++)
             {
                 SpawnMushroom(roomCenter, _goodMushrooms, parent, true, spawnZone);
             }
 
-            int badCount = Random.Range(_minBadPerRoom, _maxBadPerRoom + 1);
+            int badCount = UnityEngine.Random.Range(_minBadPerRoom, _maxBadPerRoom + 1);
             for (int i = 0; i < badCount; i++)
             {
                 SpawnMushroom(roomCenter, _badMushrooms, parent, false, spawnZone);
@@ -48,7 +57,7 @@ namespace MioritzaGame
         {
             if (_mushroomPrefab == null || options == null || options.Count == 0) return;
 
-            var mushroomSO = options[Random.Range(0, options.Count)];
+            var mushroomSO = options[UnityEngine.Random.Range(0, options.Count)];
             Vector3 spawnPos = Vector3.zero;
 
             // Use the room's spawn zone if passed, otherwise fallback to spawner's assigned zone
@@ -63,9 +72,9 @@ namespace MioritzaGame
             {
                 // Fallback to original square size logic
                 var randomOffset = new Vector3(
-                    Random.Range(-_spawnAreaHalfSize, _spawnAreaHalfSize),
+                    UnityEngine.Random.Range(-_spawnAreaHalfSize, _spawnAreaHalfSize),
                     _spawnYOffset,
-                    Random.Range(-_spawnAreaHalfSize, _spawnAreaHalfSize)
+                    UnityEngine.Random.Range(-_spawnAreaHalfSize, _spawnAreaHalfSize)
                 );
                 spawnPos = roomCenter + randomOffset;
             }
@@ -78,6 +87,10 @@ namespace MioritzaGame
             {
                 instance.gameObject.tag = "GoodMushroom";
             }
+
+            // Track spawned mushrooms so we can clear / respawn them later
+            if (!_spawnedMushrooms.Contains(instance))
+                _spawnedMushrooms.Add(instance);
         }
 
         private Vector3 GetRandomPointInPolygon(PolygonDeadZone zone)
@@ -103,8 +116,8 @@ namespace MioritzaGame
 
             for (int i = 0; i < maxAttempts; i++)
             {
-                float testX = Random.Range(minX, maxX);
-                float testZ = Random.Range(minZ, maxZ);
+                float testX = UnityEngine.Random.Range(minX, maxX);
+                float testZ = UnityEngine.Random.Range(minZ, maxZ);
 
                 if (IsPointInPolygon(testX, testZ, localPoints))
                 {
@@ -141,6 +154,56 @@ namespace MioritzaGame
                 }
             }
             return isInside;
+        }
+
+        // Runtime tracking
+        private Transform _currentParent;
+        private List<Mushroom> _spawnedMushrooms = new List<Mushroom>();
+
+        private void OnEnable()
+        {
+            Mushroom.OnGoodEatenByWater += HandleWaterAteGoodMushroom;
+        }
+
+        private void OnDisable()
+        {
+            Mushroom.OnGoodEatenByWater -= HandleWaterAteGoodMushroom;
+        }
+
+        private void HandleWaterAteGoodMushroom(Vector3 eatenPosition)
+        {
+            // When a good mushroom is eaten by water, destroy the existing mushrooms and
+            // respawn them inside the configured walkable area (_spawnZone).
+            ClearSpawnedMushrooms();
+
+            Vector3 respawnCenter = eatenPosition;
+            if (_spawnZone != null) respawnCenter = _spawnZone.transform.position;
+
+            // Create a new parent for regenerated mushrooms
+            var parentObj = new GameObject($"Mushrooms_Regenerated_{Guid.NewGuid()}");
+            _currentParent = parentObj.transform;
+
+            SpawnMushroomsInRoom(respawnCenter, _currentParent, _spawnZone);
+        }
+
+        private void ClearSpawnedMushrooms()
+        {
+            if (_spawnedMushrooms != null)
+            {
+                foreach (var m in _spawnedMushrooms)
+                {
+                    if (m != null)
+                        Destroy(m.gameObject);
+                }
+                _spawnedMushrooms.Clear();
+            }
+
+            if (_currentParent != null)
+            {
+                // Destroy parent container as well
+                Destroy(_currentParent.gameObject);
+                _currentParent = null;
+            }
         }
     }
 }

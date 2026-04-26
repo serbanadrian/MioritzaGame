@@ -12,6 +12,9 @@ public class Mushroom : MonoBehaviour
     [SerializeField] ActiveEffects effects;
     private SpriteRenderer sprite;
 
+    // Fired when a good mushroom is eaten by water. Passes the world position where it happened.
+    public static event Action<Vector3> OnGoodEatenByWater;
+
     void Awake()
     {
         sprite = this.GetComponent<SpriteRenderer>();
@@ -53,6 +56,42 @@ public class Mushroom : MonoBehaviour
             return;
         }
         effects.ConsumeMushroom(data);
-        Destroy(this.GameObject());
+        Destroy(this.gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other == null) return;
+
+        // Detect water by tag or by name containing "Apa" (Romanian for water)
+        if (other.CompareTag("Apa") || other.CompareTag("Water") || other.name.Contains("Apa"))
+        {
+            if (data != null && data.type == MushroomType.Good)
+            {
+                if (effects != null) effects.ConsumeMushroom(data);
+                // Destroy the mushroom
+                Destroy(this.gameObject);
+                // Destroy the water object as requested
+                Destroy(other.gameObject);
+                // Notify spawners to respawn mushrooms inside walking area
+                OnGoodEatenByWater?.Invoke(transform.position);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other == null) return;
+        var go = other.gameObject;
+        if (go.CompareTag("Apa") || go.CompareTag("Water") || go.name.Contains("Apa"))
+        {
+            if (data != null && data.type == MushroomType.Good)
+            {
+                if (effects != null) effects.ConsumeMushroom(data);
+                Destroy(this.gameObject);
+                Destroy(go);
+                OnGoodEatenByWater?.Invoke(transform.position);
+            }
+        }
     }
 }

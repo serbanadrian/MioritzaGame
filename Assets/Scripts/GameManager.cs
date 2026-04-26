@@ -46,15 +46,15 @@ namespace MioritzaGame
             if (musicSlider != null)
             {
                 // Default value is 1 (max volume) if not found in PlayerPrefs
-                musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1f);
-                musicSlider.onValueChanged.AddListener(SetMusicVolume);
+                musicSlider.value = MioritzaGame.Audio.AudioSettings.GetMusicVolume();
+                musicSlider.onValueChanged.AddListener((v) => MioritzaGame.Audio.AudioSettings.SetMusicVolume(v));
             }
 
             if (volumeSlider != null)
             {
                 // Default value is 1 (max volume) if not found in PlayerPrefs
-                volumeSlider.value = PlayerPrefs.GetFloat("MasterVolume", 1f);
-                volumeSlider.onValueChanged.AddListener(SetMasterVolume);
+                volumeSlider.value = MioritzaGame.Audio.AudioSettings.GetMasterVolume();
+                volumeSlider.onValueChanged.AddListener((v) => MioritzaGame.Audio.AudioSettings.SetMasterVolume(v));
             }
 
             // Make sure only the main canvas is active at start
@@ -126,23 +126,15 @@ namespace MioritzaGame
 
         // --- Audio Settings Methods --- //
 
+        // These methods are preserved for compatibility but now delegate to AudioSettings events
         public void SetMusicVolume(float volume)
         {
-            // Save the value to PlayerPrefs so it persists next time the game is loaded
-            PlayerPrefs.SetFloat("MusicVolume", volume);
-            PlayerPrefs.Save();
-
-            // You can also add your audio mixer code here later, for example:
-            // audioMixer.SetFloat("MusicVol", Mathf.Log10(volume) * 20);
+            MioritzaGame.Audio.AudioSettings.SetMusicVolume(volume);
         }
 
         public void SetMasterVolume(float volume)
         {
-            PlayerPrefs.SetFloat("MasterVolume", volume);
-            PlayerPrefs.Save();
-
-            // You can also add your audio mixer code here later, for example:
-            // audioMixer.SetFloat("MasterVol", Mathf.Log10(volume) * 20);
+            MioritzaGame.Audio.AudioSettings.SetMasterVolume(volume);
         }
     }
 }

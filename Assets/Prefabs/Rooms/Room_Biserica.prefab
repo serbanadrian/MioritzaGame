@@ -199,7 +199,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!114 &114386274226051485
@@ -238,7 +238,7 @@ MonoBehaviour:
   - {x: -0.075702064, y: 0, z: 0.3968389}
   - {x: -0.08033892, y: 0, z: 0.4889639}
   _height: 357.5
-  _isHollow: 1
+  _isHollow: 0
 --- !u!1001 &790858298557738412
 PrefabInstance:
   m_ObjectHideFlags: 0
