@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 
 namespace MioritzaGame.Game
@@ -7,6 +8,7 @@ namespace MioritzaGame.Game
     public sealed class BridgeTrigger : MonoBehaviour
     {
         [SerializeField] private VideoClip _cutsceneClip;
+        [SerializeField] private string _nextSceneOnCross = "Cutscene_Puzzle2";
 
         private bool _triggered;
 
@@ -24,7 +26,12 @@ namespace MioritzaGame.Game
             if (player.IsDead == true) return;
 
             _triggered = true;
-            GameOverScreen.Trigger(_cutsceneClip);
+            if (string.IsNullOrEmpty(_nextSceneOnCross) == true)
+            {
+                Debug.LogError($"{nameof(BridgeTrigger)} on '{name}' missing {nameof(_nextSceneOnCross)}.");
+                return;
+            }
+            SceneManager.LoadScene(_nextSceneOnCross);
         }
     }
 }
