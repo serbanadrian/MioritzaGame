@@ -850,7 +850,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520016683}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &520016687
 Camera:
   m_ObjectHideFlags: 0
@@ -1148,13 +1148,16 @@ MonoBehaviour:
   player: {fileID: 328324158}
   speed: 3
   followDistance: 3
-  followOffset: {x: 0, y: 0}
+  followOffset: {x: 0, y: 0, z: -1}
   separationRadius: 1.2
   separationStrength: 2
-  _spriteRenderer: {fileID: 990946298}
-  _animator: {fileID: 990946297}
   arriveRadius: 0.6
   stopEpsilon: 0.05
+  mushroomStopDistance: 1
+  abilityCooldown: 15
+  maxUsesPerLevel: 3
+  spriteRenderer: {fileID: 990946298}
+  animator: {fileID: 990946297}
 --- !u!95 &990946297
 Animator:
   serializedVersion: 7

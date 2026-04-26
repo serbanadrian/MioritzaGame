@@ -15,6 +15,7 @@ using System.Collections; // For HDRP
 public class ActiveEffects : MonoBehaviour
 {
     [SerializeField] PlayerContext player;
+    [SerializeField] private AudioSource consumeAudioSource;
     private Dictionary<string, EffectSO> currentEffects;
     //params for effects
     private VolumeProfile profile;
@@ -41,6 +42,12 @@ public class ActiveEffects : MonoBehaviour
     }
     public void ConsumeMushroom(MushroomSO data)
     {
+        // Play consumption sound if an AudioSource is assigned
+        if (consumeAudioSource != null)
+        {
+            consumeAudioSource.Play();
+        }
+
         List<EffectSO> effectList;
         player.InsanityChange(data.InsanityPoints);
         float roll = Random.Range(0f, 1f);

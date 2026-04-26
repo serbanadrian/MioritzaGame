@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -95,12 +95,210 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: ui volume slider_63
+      rect:
+        serializedVersion: 2
+        x: 1866
+        y: 2146
+        width: 740
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdff84cee7f2bfe4fa92f92eb0892e50
+      internalID: 1903742629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui volume slider_65
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 2129
+        width: 759
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c32c14dce02ced46baeb440a75d6c46
+      internalID: 1857757923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui volume slider_68
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 2136
+        width: 738
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ef896c1684b24146b1df4ae3367d610
+      internalID: 1029520694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui volume slider_140
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 1277
+        width: 740
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f536caab229d906449702fc2ee87c124
+      internalID: 584522747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui volume slider_144
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 1276
+        width: 740
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dea14e4a00a0eb14cb13869390d08cbc
+      internalID: 757968060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui volume slider_148
+      rect:
+        serializedVersion: 2
+        x: 1891
+        y: 1276
+        width: 740
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6478e4c358a3b94e9f55e37d0f32d4d
+      internalID: 638804455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui volume slider_227
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 406
+        width: 739
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40b727710457c5844bfa9acaf69467b1
+      internalID: -1238806145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui volume slider_229
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 405
+        width: 738
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67d74608770ae2f41a023f188fd431f5
+      internalID: 1120288316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui volume slider_231
+      rect:
+        serializedVersion: 2
+        x: 1866
+        y: 398
+        width: 740
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f00800dac24dc04db177f483d0e36ca
+      internalID: -1752429418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5f93c05d3b3f72c409a116341b4e1493
     internalID: 0
     vertices: []
     indices: 
@@ -108,8 +306,258 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      ui volume slider_0: 1787178829
+      ui volume slider_1: -1582408240
+      ui volume slider_10: 1228434257
+      ui volume slider_100: 1668130207
+      ui volume slider_101: -1816569772
+      ui volume slider_102: -842252551
+      ui volume slider_103: 580038241
+      ui volume slider_104: 749008834
+      ui volume slider_105: 1377155394
+      ui volume slider_106: -887311631
+      ui volume slider_107: 612988039
+      ui volume slider_108: -5386519
+      ui volume slider_109: 1084615458
+      ui volume slider_11: 88315691
+      ui volume slider_110: -1068254390
+      ui volume slider_111: 1404256339
+      ui volume slider_112: -2120998283
+      ui volume slider_113: 571245108
+      ui volume slider_114: 1047554492
+      ui volume slider_115: -72345363
+      ui volume slider_116: 1417808418
+      ui volume slider_117: 965531514
+      ui volume slider_118: -1466725406
+      ui volume slider_119: -891119030
+      ui volume slider_12: 430119966
+      ui volume slider_120: 362334202
+      ui volume slider_121: -832335503
+      ui volume slider_122: 562108260
+      ui volume slider_123: -1471384753
+      ui volume slider_124: 869598811
+      ui volume slider_125: -901806465
+      ui volume slider_126: -1055314707
+      ui volume slider_127: 646753365
+      ui volume slider_128: 1215671627
+      ui volume slider_129: 413467887
+      ui volume slider_13: 577623574
+      ui volume slider_130: 241738876
+      ui volume slider_131: 682404350
+      ui volume slider_132: -75277876
+      ui volume slider_133: -1385987177
+      ui volume slider_134: 1838663400
+      ui volume slider_135: -983418734
+      ui volume slider_136: 761423302
+      ui volume slider_137: 1432483783
+      ui volume slider_138: 1227452901
+      ui volume slider_139: 1948885954
+      ui volume slider_14: 634210139
+      ui volume slider_140: 584522747
+      ui volume slider_141: 1111231565
+      ui volume slider_142: -1852800208
+      ui volume slider_143: -1681064817
+      ui volume slider_144: 757968060
+      ui volume slider_145: -990063663
+      ui volume slider_146: 1521364812
+      ui volume slider_147: -386897515
+      ui volume slider_148: 638804455
+      ui volume slider_149: -850181309
+      ui volume slider_15: -1205424613
+      ui volume slider_150: -308152990
+      ui volume slider_151: 1142331166
+      ui volume slider_152: -141536046
+      ui volume slider_153: 225010047
+      ui volume slider_154: 2067308376
+      ui volume slider_155: 1296154650
+      ui volume slider_156: 1658432778
+      ui volume slider_157: -806834006
+      ui volume slider_158: 1025038099
+      ui volume slider_159: 214978521
+      ui volume slider_16: -857268322
+      ui volume slider_160: 79138026
+      ui volume slider_161: -1686335807
+      ui volume slider_162: -1477958059
+      ui volume slider_163: 1264083046
+      ui volume slider_164: -997967299
+      ui volume slider_165: 1965322389
+      ui volume slider_166: 1741017533
+      ui volume slider_167: 1324137837
+      ui volume slider_168: -2145899946
+      ui volume slider_169: 580894236
+      ui volume slider_17: -185206719
+      ui volume slider_170: 2085480837
+      ui volume slider_171: -1775460342
+      ui volume slider_172: -669094031
+      ui volume slider_173: 1931605398
+      ui volume slider_174: 303690534
+      ui volume slider_175: -505884448
+      ui volume slider_176: 1923196315
+      ui volume slider_177: -833966498
+      ui volume slider_178: 605293663
+      ui volume slider_179: -1601177733
+      ui volume slider_18: 51285588
+      ui volume slider_180: 1756057793
+      ui volume slider_181: -1480798634
+      ui volume slider_182: -1428789370
+      ui volume slider_183: 1852568004
+      ui volume slider_184: 1029730350
+      ui volume slider_185: -1189634680
+      ui volume slider_186: -33336179
+      ui volume slider_187: -327019573
+      ui volume slider_188: 470373567
+      ui volume slider_189: -1674650134
+      ui volume slider_19: 2120320421
+      ui volume slider_190: -1164198930
+      ui volume slider_191: 768904499
+      ui volume slider_192: 931476684
+      ui volume slider_193: -47128663
+      ui volume slider_194: 1759074174
+      ui volume slider_195: 367587084
+      ui volume slider_196: 1800131521
+      ui volume slider_197: -276517825
+      ui volume slider_198: -911604704
+      ui volume slider_199: -1490257371
+      ui volume slider_2: 717586753
+      ui volume slider_20: 486034652
+      ui volume slider_200: 191908763
+      ui volume slider_201: -94146940
+      ui volume slider_202: 476422203
+      ui volume slider_203: -840647039
+      ui volume slider_204: 549952284
+      ui volume slider_205: -1650700129
+      ui volume slider_206: 821785524
+      ui volume slider_207: 452225168
+      ui volume slider_208: 138094797
+      ui volume slider_209: 934736616
+      ui volume slider_21: -75349326
+      ui volume slider_210: -2017912648
+      ui volume slider_211: 347989309
+      ui volume slider_212: 1930648574
+      ui volume slider_213: -1952490052
+      ui volume slider_214: -2018980344
+      ui volume slider_215: 1398775309
+      ui volume slider_216: 1580665213
+      ui volume slider_217: 761965223
+      ui volume slider_218: -1640330100
+      ui volume slider_219: 215112068
+      ui volume slider_22: 2012605604
+      ui volume slider_220: 1550578877
+      ui volume slider_221: -1728665480
+      ui volume slider_222: 323216050
+      ui volume slider_223: 1090818781
+      ui volume slider_224: -1489412617
+      ui volume slider_225: 119310345
+      ui volume slider_226: 545150159
+      ui volume slider_227: -1238806145
+      ui volume slider_228: -2097360501
+      ui volume slider_229: 1120288316
+      ui volume slider_23: 1657943539
+      ui volume slider_230: -408546422
+      ui volume slider_231: -1752429418
+      ui volume slider_232: -1565283188
+      ui volume slider_233: 1734347467
+      ui volume slider_234: 628501510
+      ui volume slider_235: 2104830099
+      ui volume slider_236: 1180570542
+      ui volume slider_237: -1131707565
+      ui volume slider_238: 718742208
+      ui volume slider_239: 1378611666
+      ui volume slider_24: 1100714930
+      ui volume slider_240: 1863519954
+      ui volume slider_241: -1746678503
+      ui volume slider_242: 1076407969
+      ui volume slider_243: 644674958
+      ui volume slider_244: 1908654820
+      ui volume slider_245: 1718381035
+      ui volume slider_246: -561626154
+      ui volume slider_247: -1303495056
+      ui volume slider_25: -1110522361
+      ui volume slider_26: -837302938
+      ui volume slider_27: 720718913
+      ui volume slider_28: -248252353
+      ui volume slider_29: 2008161755
+      ui volume slider_3: -400166790
+      ui volume slider_30: -1755554072
+      ui volume slider_31: -1148293004
+      ui volume slider_32: -38640273
+      ui volume slider_33: -580171050
+      ui volume slider_34: 1769271447
+      ui volume slider_35: 316106163
+      ui volume slider_36: 930574634
+      ui volume slider_37: 498070904
+      ui volume slider_38: -1494716321
+      ui volume slider_39: -1711569996
+      ui volume slider_4: 171252131
+      ui volume slider_40: -474227885
+      ui volume slider_41: 112093085
+      ui volume slider_42: -1321558191
+      ui volume slider_43: 2074192861
+      ui volume slider_44: 1552796083
+      ui volume slider_45: -1278443004
+      ui volume slider_46: -1764627388
+      ui volume slider_47: 529734903
+      ui volume slider_48: 1908189079
+      ui volume slider_49: -1310410362
+      ui volume slider_5: -1386428336
+      ui volume slider_50: -1850963366
+      ui volume slider_51: 314660350
+      ui volume slider_52: 11946321
+      ui volume slider_53: 311682722
+      ui volume slider_54: -352957010
+      ui volume slider_55: 1255729452
+      ui volume slider_56: -1783073975
+      ui volume slider_57: -991816315
+      ui volume slider_58: -557010291
+      ui volume slider_59: -1024713186
+      ui volume slider_6: 369975876
+      ui volume slider_60: -1203328031
+      ui volume slider_61: -958820344
+      ui volume slider_62: 494057620
+      ui volume slider_63: 1903742629
+      ui volume slider_64: -2041550451
+      ui volume slider_65: 1857757923
+      ui volume slider_66: 196326810
+      ui volume slider_67: -612399465
+      ui volume slider_68: 1029520694
+      ui volume slider_69: -406108343
+      ui volume slider_7: 578371630
+      ui volume slider_70: -652962206
+      ui volume slider_71: 291256943
+      ui volume slider_72: -1179254741
+      ui volume slider_73: -715643037
+      ui volume slider_74: 167066441
+      ui volume slider_75: -1716708276
+      ui volume slider_76: 1715566264
+      ui volume slider_77: 1478271798
+      ui volume slider_78: -379297710
+      ui volume slider_79: -52039435
+      ui volume slider_8: -1217116662
+      ui volume slider_80: -1488276616
+      ui volume slider_81: -1788807543
+      ui volume slider_82: -2096173688
+      ui volume slider_83: -673426145
+      ui volume slider_84: -2043218341
+      ui volume slider_85: -1417915707
+      ui volume slider_86: -142538531
+      ui volume slider_87: -782929950
+      ui volume slider_88: 2097829423
+      ui volume slider_89: 299561073
+      ui volume slider_9: -1465785131
+      ui volume slider_90: -793374764
+      ui volume slider_91: 294044132
+      ui volume slider_92: 800353101
+      ui volume slider_93: 1927520801
+      ui volume slider_94: -1870718917
+      ui volume slider_95: -1560425759
+      ui volume slider_96: -1031157007
+      ui volume slider_97: -1722390202
+      ui volume slider_98: -752572591
+      ui volume slider_99: 193581289
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -25,6 +25,7 @@ public class DogFollow : MonoBehaviour
     [Header("References")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource barkAudioSource;
 
     private static readonly int MovingHash = Animator.StringToHash("Moving");
     private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
@@ -137,6 +138,7 @@ public class DogFollow : MonoBehaviour
     private void FollowPlayer()
     {
         Vector3 targetPosition = player.position + followOffset;
+        targetPosition.y = transform.position.y; // Ignore vertical height differences
         Vector3 toTarget = targetPosition - transform.position;
 
         Vector3 followVelocity = Vector3.zero;
@@ -158,6 +160,7 @@ public class DogFollow : MonoBehaviour
         Vector3 separationVelocity = GetSeparationDirection3D() * separationStrength * speed;
 
         Vector3 finalVelocity = followVelocity + separationVelocity;
+        finalVelocity.y = 0f; // Ensure movement stays strictly horizontal
 
         if (finalVelocity.magnitude > speed)
             finalVelocity = finalVelocity.normalized * speed;
@@ -176,7 +179,9 @@ public class DogFollow : MonoBehaviour
             return;
         }
 
-        Vector3 toMushroom = targetMushroom.position - transform.position;
+        Vector3 targetPos = targetMushroom.position;
+        targetPos.y = transform.position.y; // Ignore vertical height differences
+        Vector3 toMushroom = targetPos - transform.position;
         float distance = toMushroom.magnitude;
 
         if (distance > mushroomStopDistance)
@@ -185,6 +190,7 @@ public class DogFollow : MonoBehaviour
             Vector3 separationVelocity = GetSeparationDirection3D() * separationStrength * speed;
 
             Vector3 finalVelocity = moveVelocity + separationVelocity;
+            finalVelocity.y = 0f; // Ensure movement stays strictly horizontal
 
             if (finalVelocity.magnitude > speed)
                 finalVelocity = finalVelocity.normalized * speed;
@@ -203,6 +209,13 @@ public class DogFollow : MonoBehaviour
     private IEnumerator ShowMushroomRoutine()
     {
         state = DogState.ShowingMushroom;
+
+        // Activate and play the barking audio when mushroom is found
+        if (barkAudioSource != null)
+        {
+            barkAudioSource.enabled = true;
+            barkAudioSource.Play();
+        }
 
         if (animator != null)
         {
@@ -226,6 +239,20 @@ public class DogFollow : MonoBehaviour
         targetMushroom = null;
         isUsingAbility = false;
         state = DogState.FollowingPlayer;
+
+        // Stop and deactivate the barking sound once the interaction is done
+        if (barkAudioSource != null)
+        {
+            barkAudioSource.Stop();
+            barkAudioSource.enabled = false;
+        }
+
+        if (animator != null)
+        {
+            animator.ResetTrigger(GrowlHash);
+            animator.ResetTrigger(HappyHash);
+            animator.SetBool(MovingHash, false);
+        }
     }
 
     private IEnumerator CooldownRoutine()
@@ -239,19 +266,19 @@ public class DogFollow : MonoBehaviour
         if (animator != null)
             animator.SetBool(MovingHash, moving);
 
-        if (!moving || velocity.sqrMagnitude < 0.001f)
+        if (!moving)
             return;
 
-        if (velocity.z > 0.1f)
+        if (velocity.z > 0.001f)
             facingBack = true;
-        else if (velocity.z < -0.1f)
+        else if (velocity.z < -0.001f)
             facingBack = false;
 
         if (spriteRenderer != null)
         {
-            if (velocity.x > 0.1f)
+            if (velocity.x > 0.001f)
                 spriteRenderer.flipX = facingBack;
-            else if (velocity.x < -0.1f)
+            else if (velocity.x < -0.001f)
                 spriteRenderer.flipX = !facingBack;
         }
 

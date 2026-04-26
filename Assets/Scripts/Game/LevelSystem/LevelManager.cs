@@ -43,7 +43,8 @@ namespace MioritzaGame.Game
                 if (_mushroomSpawner != null)
                 {
                     // Pass 'parent' to avoid inheriting the room's weird scale (100, 0.01, 100)
-                    _mushroomSpawner.SpawnMushroomsInRoom(position, parent);
+                    var roomZone = roomInstance.GetComponentInChildren<PolygonDeadZone>();
+                    _mushroomSpawner.SpawnMushroomsInRoom(position, parent, roomZone);
                 }
 
                 if (_entrySpawner != null)
