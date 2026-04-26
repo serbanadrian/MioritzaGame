@@ -622,6 +622,11 @@ GameObject:
   - component: {fileID: 4633676807101446351}
   - component: {fileID: 5804854544268131200}
   - component: {fileID: 7643314818822928089}
+  - component: {fileID: 819225376825111962}
+  - component: {fileID: 5385217162228552186}
+  - component: {fileID: 1933557374421391919}
+  - component: {fileID: 2204268505546474975}
+  - component: {fileID: 7823424336595783259}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -741,3 +746,71 @@ CapsuleCollider:
   m_Height: 10.918067
   m_Direction: 1
   m_Center: {x: -7.1055136, y: 0.99999905, z: 0}
+--- !u!81 &819225376825111962
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174357499517797447}
+  m_Enabled: 1
+--- !u!166 &5385217162228552186
+AudioChorusFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174357499517797447}
+  m_Enabled: 0
+  m_DryMix: 1
+  m_WetMix1: 1
+  m_WetMix2: 0
+  m_WetMix3: 1
+  m_Delay: 44
+  m_Rate: 17
+  m_Depth: 0.01
+--- !u!170 &1933557374421391919
+AudioDistortionFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174357499517797447}
+  m_Enabled: 0
+  m_DistortionLevel: 1
+--- !u!168 &2204268505546474975
+AudioEchoFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174357499517797447}
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Delay: 493
+  m_DecayRatio: 1
+  m_WetMix: 1
+  m_DryMix: 1
+--- !u!164 &7823424336595783259
+AudioReverbFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174357499517797447}
+  m_Enabled: 0
+  m_DryLevel: -2356
+  m_Room: -6442
+  m_RoomHF: 0
+  m_DecayTime: 1
+  m_DecayHFRatio: 0.5
+  m_ReflectionsLevel: -10000
+  m_ReverbLevel: 0
+  m_ReverbDelay: 0.04
+  m_Diffusion: 100
+  m_Density: 100
+  m_HFReference: 5000
+  m_RoomLF: 0
+  m_LFReference: 250
+  m_ReflectionsDelay: 0
+  m_ReverbPreset: 27
