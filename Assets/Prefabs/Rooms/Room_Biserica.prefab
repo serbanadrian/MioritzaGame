@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 1044907468202099570}
   - component: {fileID: 5781621172118336399}
   - component: {fileID: 5872438617055761345}
+  - component: {fileID: 3884010038915612332}
   m_Layer: 0
   m_Name: Room_Biserica
   m_TagString: Untagged
@@ -70,6 +71,7 @@ Transform:
   - {fileID: 8294197774704307849}
   - {fileID: 7186992517422038907}
   - {fileID: 6137498096388670649}
+  - {fileID: 5821822680504139904}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1044907468202099570
@@ -150,6 +152,20 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3884010038915612332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016904999416334934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb63d7ff3168d8346898d5426fa7b75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.Level02PuzzleController
+  _apa: {fileID: 6111073421254774558}
+  _bridge: {fileID: 6353535018838645163}
 --- !u!1 &3707236078742236553
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,14 +278,14 @@ MonoBehaviour:
   - {x: 0.46261707, y: 0, z: -0.2089969}
   - {x: 0.5047601, y: 0, z: -0.108040065}
   - {x: 0.501072, y: 0, z: 0.029229958}
-  - {x: 0.45192453, y: 0, z: 0.045545988}
+  - {x: 0.49691027, y: 0, z: 0.14326483}
   - {x: 0.21395925, y: 0, z: 0.011256252}
-  - {x: 0.11049699, y: 0, z: -0.047959175}
-  - {x: 0.01774589, y: 0, z: -0.02732096}
-  - {x: -0.14521347, y: 0, z: 0.055490192}
-  - {x: -0.08742757, y: 0, z: 0.2567603}
+  - {x: 0.11420496, y: 0, z: 0.01291985}
+  - {x: 0.02893788, y: 0, z: 0.042955674}
+  - {x: -0.025616933, y: 0, z: 0.12476457}
+  - {x: -0.043183364, y: 0, z: 0.25039235}
   - {x: -0.040747654, y: 0, z: 0.34153366}
-  - {x: -0.075702064, y: 0, z: 0.3968389}
+  - {x: -0.061987743, y: 0, z: 0.40744886}
   - {x: -0.08033892, y: 0, z: 0.4889639}
   _height: 357.5
   _isHollow: 1
@@ -304,6 +320,73 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1239648711897670734}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6353535018838645163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5821822680504139904}
+  - component: {fileID: 5370071712019638207}
+  - component: {fileID: 2822422963729764830}
+  m_Layer: 0
+  m_Name: Bridge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5821822680504139904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6353535018838645163}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 4, y: 1, z: 4}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1239648711897670734}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5370071712019638207
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6353535018838645163}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2822422963729764830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6353535018838645163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 553e8afd8f6ad524e936059c750e0e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.BridgeTrigger
+  _cutsceneClip: {fileID: 32900000, guid: 810840efe99d7404f98fa5881e627411, type: 3}
 --- !u!1 &7833756479542024102
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,27 +428,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 994829787798002550, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.06
+      value: 0.04036811
       objectReference: {fileID: 0}
     - target: {fileID: 994829787798002550, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.06
+      value: 0.067271516
       objectReference: {fileID: 0}
     - target: {fileID: 994829787798002550, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.06
+      value: 0.057860997
       objectReference: {fileID: 0}
     - target: {fileID: 994829787798002550, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.037
+      value: 0.028
       objectReference: {fileID: 0}
     - target: {fileID: 994829787798002550, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 220
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 994829787798002550, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.064
+      value: 0.018
       objectReference: {fileID: 0}
     - target: {fileID: 994829787798002550, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
       propertyPath: m_LocalRotation.w
@@ -406,13 +489,41 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6788989008690864818, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6686926142719919630}
   m_SourcePrefab: {fileID: 100100000, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
 --- !u!4 &520140491289360090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 994829787798002550, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
   m_PrefabInstance: {fileID: 790858298557738412}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6111073421254774558 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6788989008690864818, guid: e30b9eec5edc192408f41724e3aceaab, type: 3}
+  m_PrefabInstance: {fileID: 790858298557738412}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6686926142719919630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6111073421254774558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b8bead12a084f64381f03c6df2d6e56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.ApaTrigger
+  _localPoints:
+  - {x: 43.186775, y: 0, z: 31.4292}
+  - {x: -43.186775, y: 0, z: 31.4292}
+  - {x: -43.186775, y: 0, z: -31.4292}
+  - {x: 43.186775, y: 0, z: -31.4292}
+  _minPoints: 100
+  _maxPoints: 200
+  _cooldownSeconds: 0.6
 --- !u!1001 &2924566198013554306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -423,19 +534,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.06
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.06
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.06
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.351
+      value: 0.325
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalPosition.y
@@ -443,35 +554,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.075
+      value: 0.073
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.7069032
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: -0.7069032
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.016967678
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.016967678
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 4.72
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -1.97
       objectReference: {fileID: 0}
     - target: {fileID: 4669933000314936554, guid: c170ac40255d7144d93874e9adc83162, type: 3}
       propertyPath: m_ConstrainProportionsScale
