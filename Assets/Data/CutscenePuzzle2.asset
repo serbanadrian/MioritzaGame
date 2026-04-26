@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdccd378e2d4c8478c6e5c8b98c3688, type: 3}
+  m_Name: CutscenePuzzle2
+  m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.CutsceneConfiguration
+  _enabled: 1
+  _steps:
+  - _video: {fileID: 32900000, guid: 810840efe99d7404f98fa5881e627411, type: 3}
+    _image: {fileID: 0}
+    _caption:
+    _duration: 0
