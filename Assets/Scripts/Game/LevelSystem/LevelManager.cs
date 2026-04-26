@@ -82,7 +82,7 @@ namespace MioritzaGame.Game
             }
 
             var exitCell = SpawnLevelExit(deadEnds, roomInstances, parent);
-            SpawnSheep(cells, exitCell, roomCenters, parent);
+            SpawnSheep(cells, exitCell, roomCenters, roomInstances, doors, parent);
 
             foreach (var entry in doors)
             {
@@ -138,7 +138,7 @@ namespace MioritzaGame.Game
             return pick.cell;
         }
 
-        private void SpawnSheep(List<Vector2Int> cells, Vector2Int? exitCell, Dictionary<Vector2Int, Vector3> roomCenters, Transform parent)
+        private void SpawnSheep(List<Vector2Int> cells, Vector2Int? exitCell, Dictionary<Vector2Int, Vector3> roomCenters, Dictionary<Vector2Int, GameObject> roomInstances, Dictionary<(Vector2Int cell, Direction direction), SpawnedEntry> doors, Transform parent)
         {
             var prefab = _configuration.SheepPrefab;
             if (prefab == null) return;
@@ -155,8 +155,14 @@ namespace MioritzaGame.Game
             var pick = candidates[Random.Range(0, candidates.Count)];
             if (roomCenters.TryGetValue(pick, out var center) == false) return;
 
-            center.y = 0.01f;
-            Instantiate(prefab, center, prefab.transform.rotation, parent);
+            var spawnPosition = center;
+            if (roomInstances.TryGetValue(pick, out var roomInstance) == true)
+            {
+                var marker = roomInstance.transform.Find("SheepSpawn");
+                if (marker != null) spawnPosition = marker.position;
+            }
+            spawnPosition.y = 0.01f;
+            Instantiate(prefab, spawnPosition, prefab.transform.rotation, parent);
         }
 
         private RoomData PickWeightedRoom()
