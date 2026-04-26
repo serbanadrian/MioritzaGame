@@ -56,7 +56,13 @@ namespace MioritzaGame.Game
                 roomInstances[cell] = roomInstance;
 
                 if (_mushroomSpawner != null)
-                    _mushroomSpawner.SpawnMushroomsInRoom(position, parent);
+                {
+                    var points = new List<Transform>();
+                    foreach (Transform child in roomInstance.transform)
+                        if (child.name.StartsWith("MushroomSpawn") == true) points.Add(child);
+                    if (points.Count > 0) _mushroomSpawner.SpawnMushroomsAtPoints(points, parent);
+                    else _mushroomSpawner.SpawnMushroomsInRoom(position, parent);
+                }
 
                 if (_entrySpawner == null) continue;
 

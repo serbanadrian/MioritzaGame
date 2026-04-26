@@ -93,10 +93,17 @@ namespace MioritzaGame
 
         void Update()
         {
-            if (isScrollingCredits && creditsTextTransform != null)
+            if (isScrollingCredits == true && creditsTextTransform != null)
             {
-                // Moves the text up on the Y axis consistently regardless of frame rate
                 creditsTextTransform.anchoredPosition += Vector2.up * scrollSpeed * Time.deltaTime;
+
+                if (Input.GetKeyDown(KeyCode.Escape) == true
+                    || Input.GetKeyDown(KeyCode.Space) == true
+                    || Input.GetKeyDown(KeyCode.Return) == true
+                    || Input.GetMouseButtonDown(0) == true)
+                {
+                    ShowCanvas(mainCanvas);
+                }
             }
         }
 

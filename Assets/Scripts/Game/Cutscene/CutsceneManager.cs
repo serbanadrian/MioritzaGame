@@ -9,6 +9,8 @@ namespace MioritzaGame.Game
         [SerializeField] private CutsceneConfiguration _configuration;
         [SerializeField] private bool _playOnStart = true;
 
+        public static bool IsCutsceneActive { get; private set; }
+
         private int _currentStep;
         private bool _isPlaying;
         private bool _videoStarted;
@@ -169,9 +171,17 @@ namespace MioritzaGame.Game
         private void BeginCutscene()
         {
             _isPlaying = true;
+            IsCutsceneActive = true;
             _currentStep = -1;
             _canvas.gameObject.SetActive(true);
             EnterStep(0);
+            StartCoroutine(FadeOutBlackAfterDelay());
+        }
+
+        private System.Collections.IEnumerator FadeOutBlackAfterDelay()
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            if (ScreenFader.Instance != null) ScreenFader.Instance.FadeFromBlack(0.6f);
         }
 
         private void EnterStep(int index)
@@ -220,6 +230,7 @@ namespace MioritzaGame.Game
             if (_audioSource != null) _audioSource.Stop();
             _canvas.gameObject.SetActive(false);
             _isPlaying = false;
+            IsCutsceneActive = false;
             Time.timeScale = 1f;
         }
 

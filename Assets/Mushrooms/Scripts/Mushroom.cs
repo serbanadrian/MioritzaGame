@@ -1,37 +1,31 @@
-using System;
-using System.Buffers;
-using Unity.VisualScripting;
-using Unity.VisualScripting.InputSystem;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class Mushroom : MonoBehaviour
 {
     [SerializeField] MushroomSO data;
     [SerializeField] ActiveEffects effects;
-    private SpriteRenderer sprite;
 
-    // Fired when a good mushroom is eaten by water. Passes the world position where it happened.
-    public static event Action<Vector3> OnGoodEatenByWater;
+    [Header("Pickup")]
+    [SerializeField] private float _pickupRadius = 4f;
+
+    private SpriteRenderer sprite;
+    private bool _playerInRange;
+    private Transform _player;
 
     void Awake()
     {
-        sprite = this.GetComponent<SpriteRenderer>();
-        Debug.Log(data);
-        if (data != null)
-        {
-            sprite.sprite = data.sprite;
-        }
+        sprite = GetComponent<SpriteRenderer>();
+        if (data != null && sprite != null) sprite.sprite = data.sprite;
+
+        var col = GetComponent<Collider>();
+        if (col != null) col.isTrigger = true;
     }
+
     public void Initialize(MushroomSO newData, ActiveEffects sceneEffects = null)
     {
         data = newData;
-        if (sprite == null) sprite = this.GetComponent<SpriteRenderer>();
-        if (data != null && sprite != null)
-        {
-            sprite.sprite = data.sprite;
-        }
+        if (sprite == null) sprite = GetComponent<SpriteRenderer>();
+        if (data != null && sprite != null) sprite.sprite = data.sprite;
 
         if (sceneEffects != null)
         {
@@ -48,50 +42,90 @@ public class Mushroom : MonoBehaviour
             }
         }
     }
-    void OnMouseDown()
+
+    void Update()
     {
-        if (effects == null)
-        {
-            Debug.LogError("Mushroom.effects is null. Ensure ActiveEffects is assigned in the spawner or scene.");
-            return;
-        }
-        effects.ConsumeMushroom(data);
-        Destroy(this.gameObject);
+        if (MioritzaGame.Game.CutsceneManager.IsCutsceneActive == true) { _playerInRange = false; return; }
+
+        if (_player == null) TryFindPlayer();
+        if (_player == null) return;
+
+        var delta = transform.position - _player.position;
+        delta.y = 0f;
+        var distance = delta.magnitude;
+        _playerInRange = distance <= _pickupRadius;
+
+        if (_playerInRange == true && Input.GetKeyDown(KeyCode.E) == true) Consume();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void TryFindPlayer()
     {
-        if (other == null) return;
-
-        // Detect water by tag or by name containing "Apa" (Romanian for water)
-        if (other.CompareTag("Apa") || other.CompareTag("Water") || other.name.Contains("Apa"))
-        {
-            if (data != null && data.type == MushroomType.Good)
-            {
-                if (effects != null) effects.ConsumeMushroom(data);
-                // Destroy the mushroom
-                Destroy(this.gameObject);
-                // Destroy the water object as requested
-                Destroy(other.gameObject);
-                // Notify spawners to respawn mushrooms inside walking area
-                OnGoodEatenByWater?.Invoke(transform.position);
-            }
-        }
+        var pc = Object.FindAnyObjectByType<MioritzaGame.Game.PlayerController>();
+        if (pc == null) return;
+        _player = pc.transform;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void Consume()
     {
-        if (other == null) return;
-        var go = other.gameObject;
-        if (go.CompareTag("Apa") || go.CompareTag("Water") || go.name.Contains("Apa"))
+        if (effects == null) effects = Object.FindAnyObjectByType<ActiveEffects>(FindObjectsInactive.Include);
+        if (effects != null && effects.gameObject.activeInHierarchy == false)
         {
-            if (data != null && data.type == MushroomType.Good)
-            {
-                if (effects != null) effects.ConsumeMushroom(data);
-                Destroy(this.gameObject);
-                Destroy(go);
-                OnGoodEatenByWater?.Invoke(transform.position);
-            }
+            Debug.LogWarning($"{nameof(Mushroom)} located inactive {nameof(ActiveEffects)} — activating it.");
+            effects.gameObject.SetActive(true);
         }
+        if (effects != null && data != null) effects.ConsumeMushroom(data);
+
+        var label = data != null && string.IsNullOrEmpty(data.mushroomName) == false
+            ? $"TOOK {data.mushroomName.ToUpper()}"
+            : "TOOK MUSHROOM";
+        var tint = data != null && data.type == MushroomType.Bad ? new Color(1f, 0.4f, 0.4f) : new Color(0.6f, 1f, 0.6f);
+        var description = BuildFlavorLine(data);
+        MushroomToast.Show(label, description, tint);
+
+        var overlayTint = data != null && data.type == MushroomType.Bad
+            ? new Color(0.8f, 0.1f, 0.1f, 0.18f)
+            : new Color(0.2f, 0.7f, 0.3f, 0.15f);
+        ScreenEffectOverlay.Show(overlayTint, 4f, vignette: true, grain: data != null && data.type == MushroomType.Bad);
+
+        Destroy(gameObject);
+    }
+
+    private static string BuildFlavorLine(MushroomSO mushroom)
+    {
+        if (mushroom == null) return string.Empty;
+
+        if (mushroom.type == MushroomType.Good)
+            return mushroom.InsanityPoints < 0
+                ? "You took a good mushroom — your sanity returns a little."
+                : "You took a good mushroom — it steadies you.";
+
+        if (mushroom.type == MushroomType.Bad)
+            return mushroom.InsanityPoints > 0
+                ? "Bad mushroom — your head spins with nausea."
+                : "Bad mushroom — your stomach churns.";
+
+        return "You took a mushroom — its taste lingers.";
+    }
+
+    void OnGUI()
+    {
+        if (_playerInRange == false) return;
+        var cam = Camera.main;
+        if (cam == null) return;
+
+        var screenPos = cam.WorldToScreenPoint(transform.position);
+        if (screenPos.z < 0f) return;
+
+        var label = data != null && string.IsNullOrEmpty(data.mushroomName) == false
+            ? $"PRESS E TO TAKE {data.mushroomName.ToUpper()}"
+            : "PRESS E TO TAKE";
+
+        var rect = new Rect(screenPos.x - 140f, Screen.height - screenPos.y - 80f, 280f, 28f);
+        var style = new GUIStyle(GUI.skin.box);
+        style.fontSize = 16;
+        style.fontStyle = FontStyle.Bold;
+        style.normal.textColor = Color.white;
+        style.alignment = TextAnchor.MiddleCenter;
+        GUI.Label(rect, label, style);
     }
 }

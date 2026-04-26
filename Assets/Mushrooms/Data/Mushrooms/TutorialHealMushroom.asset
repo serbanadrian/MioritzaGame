@@ -10,15 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ea31dda1a0a2934d8e15a77df3be675, type: 3}
-  m_Name: GoodMushroom2
+  m_Name: TutorialHealMushroom
   m_EditorClassIdentifier: Assembly-CSharp::MushroomSO
-  mushroomName: 
-  sprite: {fileID: -2025711683, guid: 1eb8151c978d6da41970eb3a02334f97, type: 3}
-  insanityPoints: -300
+  mushroomName: Healing Mushroom
+  sprite: {fileID: 607552462, guid: 1eb8151c978d6da41970eb3a02334f97, type: 3}
+  insanityPoints: -400
   type: 0
-  chance: 0
-  goodEffects:
-  - {fileID: 11400000, guid: 594bfc25896e44e4b8ef905711c399a4, type: 2}
-  badEffects:
-  - {fileID: 11400000, guid: e39f0754d404f084ea999573d8038d9f, type: 2}
-  - {fileID: 11400000, guid: e80d8e69001e6b24192b225c9659df33, type: 2}
+  chance: 1
+  goodEffects: []
+  badEffects: []

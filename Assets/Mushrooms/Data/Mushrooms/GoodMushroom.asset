@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MushroomSO
   mushroomName: 
   sprite: {fileID: 607552462, guid: 1eb8151c978d6da41970eb3a02334f97, type: 3}
-  insanityPoints: 0
+  insanityPoints: -200
   type: 0
   chance: 0
   goodEffects:

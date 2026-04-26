@@ -34,8 +34,16 @@ namespace MioritzaGame.Game
                 return;
             }
 
-            SceneManager.LoadScene(_targetScene);
+            LoadTargetScene();
         }
+
+        private void LoadTargetScene()
+        {
+            ScreenFader.Instance.FadeToBlack(0.4f);
+            Invoke(nameof(DoLoad), 0.4f);
+        }
+
+        private void DoLoad() => SceneManager.LoadScene(_targetScene);
 
         private static bool HasUnpickedSheep()
         {
@@ -68,7 +76,7 @@ namespace MioritzaGame.Game
             {
                 _showConfirm = false;
                 Time.timeScale = 1f;
-                SceneManager.LoadScene(_targetScene);
+                LoadTargetScene();
             }
             if (GUI.Button(new Rect(rect.x + w - 200f, rect.y + 100f, 140f, 36f), "Cancel") == true)
             {
