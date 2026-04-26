@@ -1,121 +1,167 @@
-using UnityEditor.MPE;
 using UnityEngine;
 
 public class SheepFollow : MonoBehaviour
 {
+    [Header("Follow")]
     public Transform player;
-    public float speed = 3f;
+    public float speedMultiplier = 1.2f;
+    public float fallbackSpeed = 5f;
     public float followDistance = 3f;
-    public Vector2 followOffset;
+    public Vector3 followOffset = new Vector3(1f, 0f, -1f);
 
+    [Header("Separation")]
     public float separationRadius = 1.2f;
-    public float separationStrength = 2f;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-    private static readonly int IsMovingHash = Animator.StringToHash("Moving");
+    public float separationStrength = 1.2f;
+
+    [Header("Smooth Stop")]
+    public float arriveRadius = 0.6f;
+    public float stopEpsilon = 0.05f;
+
+    [Header("Pickup")]
+    public float pickupRadius = 4f;
+
+    [Header("References")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
+
+    private static readonly int MovingHash = Animator.StringToHash("Moving");
     private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
-    [SerializeField] private Animator _sheep;
-    private bool Moving = false;
-    private bool FacingBack;
-
-
-    // nou
-    public float arriveRadius = 0.6f;     // cât de aproape începe să încetinească
-    public float stopEpsilon = 0.05f;     // sub distanța asta, se oprește
 
     public bool isFollowing = false;
-    private Rigidbody2D rb;
 
+    private MioritzaGame.Game.PlayerController playerController;
+    private bool facingBack;
+    private bool playerInRange;
+
+    private float CurrentSpeed
+    {
+        get
+        {
+            var basis = playerController != null ? playerController.MoveSpeed : fallbackSpeed;
+            return basis * speedMultiplier;
+        }
+    }
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        // recomandat pt MovePosition ca să fie mai smooth
-        if (rb != null) rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        TryFindPlayer();
     }
 
-    void OnMouseDown()
+    void Update()
     {
-        isFollowing = true;
+        if (player == null) TryFindPlayer();
+        if (player == null) return;
+        if (isFollowing == true) return;
+
+        var distance = Vector3.Distance(transform.position, player.position);
+        playerInRange = distance <= pickupRadius;
+
+        if (playerInRange == true && Input.GetKeyDown(KeyCode.E) == true)
+        {
+            isFollowing = true;
+            transform.SetParent(null);
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    void OnGUI()
+    {
+        if (isFollowing == true || playerInRange == false) return;
+        var cam = Camera.main;
+        if (cam == null) return;
+
+        var screenPos = cam.WorldToScreenPoint(transform.position);
+        var rect = new Rect(screenPos.x - 120f, Screen.height - screenPos.y - 80f, 240f, 28f);
+        var style = new GUIStyle(GUI.skin.box);
+        style.fontSize = 16;
+        style.fontStyle = FontStyle.Bold;
+        style.normal.textColor = Color.white;
+        style.alignment = TextAnchor.MiddleCenter;
+        GUI.Label(rect, "PRESS E TO FOLLOW YOU", style);
     }
 
     void FixedUpdate()
     {
+        if (isFollowing == false || player == null) return;
 
-        if (!isFollowing || player == null || rb == null) return;
+        FollowPlayer();
+    }
 
-        // Player is moving on X and Z axis, but Sheep uses a 2D Rigidbody.
-        // If the game uses a 3D world (X/Z plane), a 2D Rigidbody (X/Y) will not work properly here natively without syncing.
-        // It looks like the sheep operates entirely on XY physics or was meant to.
-        // Let's assume you wanted XZ 3D movement but mapped to Vector2 for the logic.
-        Vector3 targetPosition3D = player.position + new Vector3(followOffset.x, 0f, followOffset.y);
+    private void FollowPlayer()
+    {
+        Vector3 targetPosition = player.position + followOffset;
+        Vector3 toTarget = targetPosition - transform.position;
 
-        Vector3 currentPosition3D = rb.transform.position;
-        Vector3 toTarget3D = targetPosition3D - currentPosition3D;
-
-        // Zero out the Y axis since floor is flat
-        toTarget3D.y = 0f;
-
-        var horizontal = Input.GetAxisRaw("Horizontal");
-        var vertical = Input.GetAxisRaw("Vertical");
-
-        float distanceToTarget = toTarget3D.magnitude;
-
-        // 1) FOLLOW cu decelerare (arrive)
         Vector3 followVelocity = Vector3.zero;
+        float distanceToTarget = toTarget.magnitude;
 
         if (distanceToTarget > followDistance)
         {
-            Moving = true;
-            // viteză maximă
-            float t = 1f;
+            float arriveSlowdown = 1f;
 
-            // dacă e aproape de target, scade viteza gradual
             if (distanceToTarget < arriveRadius)
-                t = Mathf.InverseLerp(0f, arriveRadius, distanceToTarget);
+                arriveSlowdown = Mathf.InverseLerp(0f, arriveRadius, distanceToTarget);
 
-            followVelocity = toTarget3D.normalized * (speed * t);
+            followVelocity = toTarget.normalized * CurrentSpeed * arriveSlowdown;
 
-            // dacă e foarte aproape, oprește ca să nu “vâneze” punctul
             if (distanceToTarget < stopEpsilon)
                 followVelocity = Vector3.zero;
-
-            if (vertical > 0f) FacingBack = true;
-            else if (vertical < 0f) FacingBack = false;
-        }
-        else
-        {
-            Moving = false;
-            followVelocity = Vector3.zero;
         }
 
-        // 2) SEPARATION
-        Vector3 separationDir = GetSeparationDirection3D();
-        Vector3 separationVelocity = separationDir * separationStrength * speed;
+        Vector3 separationVelocity = GetSeparationDirection3D() * separationStrength * CurrentSpeed;
 
-        // 3) combină și limitează
         Vector3 finalVelocity = followVelocity + separationVelocity;
-        if (finalVelocity.magnitude > speed) finalVelocity = finalVelocity.normalized * speed;
 
-        if (_sheep != null)
-        {
-            _sheep.SetBool(IsMovingHash, Moving);
-            _sheep.SetBool(FacingBackHash, FacingBack);
-        }
-        if (_spriteRenderer != null)
-        {
-            if (horizontal > 0f) _spriteRenderer.flipX = FacingBack;
-            else if (horizontal < 0f) _spriteRenderer.flipX = FacingBack == false;
-        }
+        if (finalVelocity.magnitude > CurrentSpeed)
+            finalVelocity = finalVelocity.normalized * CurrentSpeed;
 
-        // If Rigidbody2D is used, it only moves XY. If the floor is XZ, we should physically move the transform or apply it properly.
-        // Assuming your game is effectively a 3D space with sprites (2.5D):
         transform.position += finalVelocity * Time.fixedDeltaTime;
-        // rb.velocity is generally for 2D XY physics, so transforming position manually prevents them skipping below map.
+
+        bool moving = finalVelocity.sqrMagnitude > 0.001f;
+        UpdateAnimation(finalVelocity, moving);
     }
 
-    Vector3 GetSeparationDirection3D()
+    private void TryFindPlayer()
     {
-        // For 3D 2.5D overlap
+        var pc = Object.FindAnyObjectByType<MioritzaGame.Game.PlayerController>();
+        if (pc == null) return;
+        playerController = pc;
+        player = pc.transform;
+    }
+
+    private void UpdateAnimation(Vector3 velocity, bool moving)
+    {
+        if (animator != null)
+            animator.SetBool(MovingHash, moving);
+
+        if (moving == false || velocity.sqrMagnitude < 0.001f)
+            return;
+
+        if (velocity.z > 0.1f)
+            facingBack = true;
+        else if (velocity.z < -0.1f)
+            facingBack = false;
+
+        if (spriteRenderer != null)
+        {
+            if (velocity.x > 0.1f)
+                spriteRenderer.flipX = facingBack;
+            else if (velocity.x < -0.1f)
+                spriteRenderer.flipX = facingBack == false;
+        }
+
+        if (animator != null)
+            animator.SetBool(FacingBackHash, facingBack);
+    }
+
+    private Vector3 GetSeparationDirection3D()
+    {
         Collider[] nearby = Physics.OverlapSphere(transform.position, separationRadius);
         Vector3 separation = Vector3.zero;
 
@@ -125,23 +171,22 @@ public class SheepFollow : MonoBehaviour
 
             if (other.CompareTag("Sheep") || other.CompareTag("Dog"))
             {
-                Vector3 diff = (transform.position - other.transform.position);
-                diff.y = 0f;
+                Vector3 diff = transform.position - other.transform.position;
                 float distance = diff.magnitude;
 
                 if (distance > 0.01f)
-                {
                     separation += diff.normalized / distance;
-                }
             }
         }
 
         return separation.sqrMagnitude > 0f ? separation.normalized : Vector3.zero;
     }
 
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, separationRadius);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, pickupRadius);
     }
 }

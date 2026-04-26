@@ -39,7 +39,9 @@ namespace MioritzaGame.Game
             var occupied = new HashSet<Vector2Int>(cells);
 
             var roomCenters = new Dictionary<Vector2Int, Vector3>();
+            var roomInstances = new Dictionary<Vector2Int, GameObject>();
             var doors = new Dictionary<(Vector2Int cell, Direction direction), SpawnedEntry>();
+            var deadEnds = new List<(Vector2Int cell, Direction direction)>();
             var startSpawn = default(SpawnedEntry);
             var hasStartSpawn = false;
 
@@ -51,6 +53,7 @@ namespace MioritzaGame.Game
                 var position = new Vector3(cell.x * _cellSize, 0f, cell.y * _cellSize);
                 var roomInstance = Instantiate(room._roomPrefab, position, room._roomPrefab.transform.rotation, parent);
                 roomCenters[cell] = position;
+                roomInstances[cell] = roomInstance;
 
                 if (_mushroomSpawner != null)
                     _mushroomSpawner.SpawnMushroomsInRoom(position, parent);
@@ -60,7 +63,11 @@ namespace MioritzaGame.Game
                 foreach (var direction in AllDirections)
                 {
                     var neighbor = cell + direction.ToCellOffset();
-                    if (occupied.Contains(neighbor) == false) continue;
+                    if (occupied.Contains(neighbor) == false)
+                    {
+                        deadEnds.Add((cell, direction));
+                        continue;
+                    }
 
                     var spawned = _entrySpawner.SpawnEntryForDirection(roomInstance.transform, parent, direction);
                     if (spawned._door == null) continue;
@@ -73,6 +80,9 @@ namespace MioritzaGame.Game
                     }
                 }
             }
+
+            var exitCell = SpawnLevelExit(deadEnds, roomInstances, parent);
+            SpawnSheep(cells, exitCell, roomCenters, parent);
 
             foreach (var entry in doors)
             {
@@ -94,6 +104,59 @@ namespace MioritzaGame.Game
                 else _player.position = spawnPosition;
                 if (startSpawn._door != null) startSpawn._door.SuppressUntil(Time.time + 1f);
             }
+        }
+
+        private Vector2Int? SpawnLevelExit(List<(Vector2Int cell, Direction direction)> deadEnds, Dictionary<Vector2Int, GameObject> roomInstances, Transform parent)
+        {
+            var exitScene = _configuration.ExitSceneName;
+            if (string.IsNullOrEmpty(exitScene) == true) return null;
+            if (_entrySpawner == null) return null;
+            if (deadEnds.Count == 0) return null;
+
+            var candidates = new List<(Vector2Int cell, Direction direction)>();
+            foreach (var deadEnd in deadEnds)
+                if (deadEnd.cell != Vector2Int.zero) candidates.Add(deadEnd);
+            if (candidates.Count == 0) candidates = deadEnds;
+
+            var pick = candidates[Random.Range(0, candidates.Count)];
+            if (roomInstances.TryGetValue(pick.cell, out var roomInstance) == false) return null;
+
+            var spawned = _entrySpawner.SpawnEntryForDirection(roomInstance.transform, parent, pick.direction);
+            if (spawned._door == null) return null;
+
+            var doorGameObject = spawned._door.gameObject;
+            doorGameObject.name = $"LevelExit_{exitScene}";
+            Destroy(spawned._door);
+
+            var transition = doorGameObject.AddComponent<LevelTransitionDoor>();
+            transition.SetTargetScene(exitScene);
+
+            doorGameObject.transform.localScale *= _configuration.ExitScale;
+            foreach (var renderer in doorGameObject.GetComponentsInChildren<SpriteRenderer>())
+                renderer.color = _configuration.ExitTint;
+
+            return pick.cell;
+        }
+
+        private void SpawnSheep(List<Vector2Int> cells, Vector2Int? exitCell, Dictionary<Vector2Int, Vector3> roomCenters, Transform parent)
+        {
+            var prefab = _configuration.SheepPrefab;
+            if (prefab == null) return;
+
+            var candidates = new List<Vector2Int>();
+            foreach (var cell in cells)
+            {
+                if (cell == Vector2Int.zero) continue;
+                if (exitCell.HasValue == true && cell == exitCell.Value) continue;
+                candidates.Add(cell);
+            }
+            if (candidates.Count == 0) return;
+
+            var pick = candidates[Random.Range(0, candidates.Count)];
+            if (roomCenters.TryGetValue(pick, out var center) == false) return;
+
+            center.y = 0.01f;
+            Instantiate(prefab, center, prefab.transform.rotation, parent);
         }
 
         private RoomData PickWeightedRoom()

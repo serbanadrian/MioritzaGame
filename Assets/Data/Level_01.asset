@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Level_01
   m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.LevelSystemConfiguration
   _roomPool:
-  - _roomPrefab: {fileID: 2016904999416334934, guid: a8612ba06bc96714ab24d31dac9f1be0, type: 3}
+  - _roomPrefab: {fileID: 2016904999416334934, guid: 8e6181501b688474d95b7c0e75dbb364, type: 3}
     _spawnWeight: 1
   _minRooms: 5
-  _maxRooms: 6
+  _maxRooms: 7
+  _exitSceneName: Level_02
+  _exitTint: {r: 1, g: 0.78, b: 0.25, a: 1}
+  _exitScale: 1.4
+  _sheepPrefab: {fileID: 9023123431942621618, guid: c929322bc5537a34dbc9652416c388db, type: 3}

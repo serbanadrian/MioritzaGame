@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 326bad735a7cb8f468cbc8b4d0ed4918, type: 3}
+  m_Name: EntryConfig_Level01
+  m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.EntryConfiguration
+  _placements:
+  - _prefab: {fileID: 8218294839296188546, guid: c463fc02f635a5b4790a44c036086355, type: 3}
+    _positions:
+    - {x: -0.3985, y: 2, z: -0.107}
+    - {x: -0.3985, y: 2, z: -0.164}
+    - {x: -0.398, y: 2, z: -0.2}
+    - {x: -0.343, y: 2, z: -0.241}
+    - {x: -0.393, y: 2, z: -0.243}
+    _spawnOffset: {x: 0.00790289, y: 1, z: 0.060689732}
+    _facing: 1
+    _direction: 4
+    _sortingOrder: 0
+  - _prefab: {fileID: 6398832500593878810, guid: 9a2f99c6820bcb54a85353dc69ad97e3, type: 3}
+    _positions:
+    - {x: -0.091, y: 1, z: -0.327}
+    - {x: -0.117, y: 1, z: -0.352}
+    - {x: -0.142, y: 1, z: -0.353}
+    - {x: -0.18, y: 1, z: -0.348}
+    - {x: -0.226, y: 1, z: -0.331}
+    _spawnOffset: {x: -0.014976159, y: 94, z: 0.12897424}
+    _facing: 1
+    _direction: 2
+    _sortingOrder: 0
+  - _prefab: {fileID: 7250460966925884090, guid: da9a0f957eb9be4489d8dfdc5bbe4add, type: 3}
+    _positions:
+    - {x: 0.41151816, y: 1, z: -0.05504834}
+    - {x: 0.3523, y: 1, z: -0.101}
+    - {x: 0.3262, y: 1, z: -0.183}
+    - {x: 0.3147, y: 1, z: -0.253}
+    - {x: 0.2762, y: 1, z: -0.239}
+    _spawnOffset: {x: -0.13669111, y: 1, z: 0.069610894}
+    _facing: 0
+    _direction: 3
+    _sortingOrder: 0
+  - _prefab: {fileID: 2376336148955321123, guid: 1b8eaa0d6baf9de4a9e513607902e7a0, type: 3}
+    _positions:
+    - {x: 0.145, y: 1, z: -0.324}
+    - {x: 0.117, y: 1, z: -0.337}
+    - {x: 0.077, y: 1, z: -0.343}
+    - {x: 0.023, y: 1, z: -0.348}
+    - {x: -0.019, y: 1, z: -0.341}
+    _spawnOffset: {x: -0.11901591, y: 94, z: 0.11047232}
+    _facing: 0
+    _direction: 2
+    _sortingOrder: 0
+  - _prefab: {fileID: 5134064273225758963, guid: 78833ba5349793b4c94db97f41256908, type: 3}
+    _positions:
+    - {x: -0.206, y: 6, z: 0.474000007}
+    - {x: -0.224000007, y: 6, z: 0.474000007}
+    - {x: -0.244000003, y: 6, z: 0.474000007}
+    - {x: -0.259000003, y: 6, z: 0.474000007}
+    - {x: -0.289999992, y: 6, z: 0.474000007}
+    _spawnOffset: {x: -0.083028644, y: 89, z: -0.074388534}
+    _facing: 2
+    _direction: 1
+    _sortingOrder: 2
+  - _prefab: {fileID: 4444322134893764810, guid: 97f6ac4e14d4666439c36199a8f0db86, type: 3}
+    _positions:
+    - {x: -0.206, y: 6, z: 0.474000007}
+    - {x: -0.224000007, y: 6, z: 0.474000007}
+    - {x: -0.244000003, y: 6, z: 0.474000007}
+    - {x: -0.259000003, y: 6, z: 0.474000007}
+    - {x: -0.289999992, y: 6, z: 0.474000007}
+    _spawnOffset: {x: -0.083028644, y: 89, z: -0.074388534}
+    _facing: 2
+    _direction: 1
+    _sortingOrder: 2
+  _minCount: 2
+  _maxCount: 4
+  _scale: 3
+  _yOffset: 0.05

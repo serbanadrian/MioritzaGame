@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6985da19863e98c4eacff292f170bdfb, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.PlayerConfiguration
-  _moveSpeed: 10
+  _moveSpeed: 50
   _maxHealth: 100

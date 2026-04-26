@@ -20,6 +20,7 @@ namespace MioritzaGame.Game
 
         public int MaxHealth => _configuration != null ? _configuration.MaxHealth : 0;
         public int CurrentHealth => _currentHealth;
+        public float MoveSpeed => _configuration != null ? _configuration.MoveSpeed : 0f;
 
         private void Awake()
         {
@@ -106,6 +107,18 @@ namespace MioritzaGame.Game
             {
                 if (facing == EntryFacing.Left) _spriteRenderer.flipX = true;
                 else if (facing == EntryFacing.Right) _spriteRenderer.flipX = false;
+            }
+
+            TeleportFollowers(worldPosition);
+        }
+
+        private static void TeleportFollowers(Vector3 worldPosition)
+        {
+            var sheep = FindObjectsByType<SheepFollow>(FindObjectsSortMode.None);
+            foreach (var s in sheep)
+            {
+                if (s.isFollowing == false) continue;
+                s.transform.position = worldPosition;
             }
         }
 
