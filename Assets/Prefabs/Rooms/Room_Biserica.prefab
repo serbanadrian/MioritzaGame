@@ -517,10 +517,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.ApaTrigger
   _localPoints:
-  - {x: 43.186775, y: 0, z: 31.4292}
-  - {x: -43.186775, y: 0, z: 31.4292}
+  - {x: 4.1389594, y: 0, z: 3.9509985}
+  - {x: -44.360348, y: 0, z: 4.2380056}
   - {x: -43.186775, y: 0, z: -31.4292}
-  - {x: 43.186775, y: 0, z: -31.4292}
+  - {x: 22.61147, y: 0, z: -31.558514}
+  - {x: 15.914257, y: 0, z: -16.513187}
+  - {x: 17.279352, y: 0, z: -1.9030979}
   _minPoints: 100
   _maxPoints: 200
   _cooldownSeconds: 0.6

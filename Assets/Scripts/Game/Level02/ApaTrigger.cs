@@ -15,9 +15,8 @@ namespace MioritzaGame.Game
 
         [SerializeField] private int _minPoints = 100;
         [SerializeField] private int _maxPoints = 200;
-        [SerializeField] private float _cooldownSeconds = 0.6f;
 
-        private float _nextAllowed;
+        private bool _playerInside;
         private Transform _player;
 
         public Vector3[] LocalPoints
@@ -30,21 +29,27 @@ namespace MioritzaGame.Game
         {
             if (Application.isPlaying == false) return;
             if (_localPoints == null || _localPoints.Length < 3) return;
-            if (Time.time < _nextAllowed) return;
 
             if (_player == null) TryFindPlayer();
             if (_player == null) return;
 
             var rel = _player.position - transform.position;
+            var isInside = IsPointInPolygon(rel.x, rel.z);
 
-            if (IsPointInPolygon(rel.x, rel.z) == false) return;
+            if (isInside == false)
+            {
+                _playerInside = false;
+                return;
+            }
+
+            if (_playerInside == true) return;
+            _playerInside = true;
 
             var ctx = _player.GetComponent<PlayerContext>();
             if (ctx == null || ctx.IsDead == true) return;
 
             var amount = Random.Range(_minPoints, _maxPoints + 1);
             ctx.InsanityChange(amount);
-            _nextAllowed = Time.time + _cooldownSeconds;
 
             ScreenEffectOverlay.Show(new Color(0.1f, 0.25f, 0.6f, 0.28f), 0.6f, vignette: true, grain: false);
             MushroomToast.Show("TOXIC SUBSTANCE", "Your insanity rises.", new Color(0.55f, 0.7f, 1f), 1.6f);
