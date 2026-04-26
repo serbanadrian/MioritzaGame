@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Mushroom : MonoBehaviour
 {
+    public static event System.Action<MushroomSO> OnConsumed;
+
     [SerializeField] MushroomSO data;
     [SerializeField] ActiveEffects effects;
 
@@ -77,6 +79,8 @@ public class Mushroom : MonoBehaviour
             effects.gameObject.SetActive(true);
         }
         if (effects != null && data != null) effects.ConsumeMushroom(data);
+
+        if (data != null) OnConsumed?.Invoke(data);
 
         var label = data != null && string.IsNullOrEmpty(data.mushroomName) == false
             ? $"TOOK {data.mushroomName.ToUpper()}"
