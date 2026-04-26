@@ -29,6 +29,18 @@ namespace MioritzaGame
         [SerializeField] private float _spawnYOffset = 0.5f;
         [SerializeField] private ActiveEffects sceneEffects;
 
+        public Mushroom SpawnSingle(MushroomSO data, Vector3 worldPos, Transform parent = null, bool isGood = true)
+        {
+            if (_mushroomPrefab == null || data == null) return null;
+            worldPos.y = _spawnYOffset;
+            var rotation = Quaternion.Euler(90f, 0f, 0f);
+            var instance = Instantiate(_mushroomPrefab, worldPos, rotation, parent);
+            instance.Initialize(data, sceneEffects);
+            if (isGood == true) instance.gameObject.tag = "GoodMushroom";
+            instance.gameObject.name = string.IsNullOrEmpty(data.mushroomName) == false ? data.mushroomName : data.name;
+            return instance;
+        }
+
         public void SpawnMushroomsInRoom(Vector3 roomCenter, Transform parent = null, PolygonDeadZone spawnZone = null)
         {
             // If no parent provided, create a runtime parent container (acts like a generated prefab at runtime)
@@ -52,7 +64,7 @@ namespace MioritzaGame
             }
         }
 
-        public void SpawnMushroomsAtPoints(List<Transform> spawnPoints, Transform parent = null)
+        public void SpawnMushroomsAtPoints(List<Transform> spawnPoints, Transform parent = null, bool excludeCleanser = false)
         {
             if (_mushroomPrefab == null) return;
             if (spawnPoints == null || spawnPoints.Count == 0) return;
@@ -68,8 +80,16 @@ namespace MioritzaGame
 
                 bool isGood = (_goodMushrooms != null && _goodMushrooms.Count > 0)
                     && (_badMushrooms == null || _badMushrooms.Count == 0 || UnityEngine.Random.value < 0.6f);
-                var pool = isGood ? _goodMushrooms : _badMushrooms;
-                if (pool == null || pool.Count == 0) continue;
+                var basePool = isGood ? _goodMushrooms : _badMushrooms;
+                if (basePool == null || basePool.Count == 0) continue;
+
+                var pool = basePool;
+                if (excludeCleanser == true)
+                {
+                    pool = new List<MushroomSO>();
+                    foreach (var m in basePool) if (m != null && m.cleansToxicWater == false) pool.Add(m);
+                    if (pool.Count == 0) continue;
+                }
 
                 var mushroomSO = pool[UnityEngine.Random.Range(0, pool.Count)];
                 var spawnPos = point.position;
@@ -79,6 +99,7 @@ namespace MioritzaGame
                 var instance = Instantiate(_mushroomPrefab, spawnPos, rotation, parent);
                 instance.Initialize(mushroomSO, sceneEffects);
                 if (isGood == true) instance.gameObject.tag = "GoodMushroom";
+                instance.gameObject.name = string.IsNullOrEmpty(mushroomSO.mushroomName) == false ? mushroomSO.mushroomName : mushroomSO.name;
             }
         }
 
@@ -111,6 +132,7 @@ namespace MioritzaGame
             var rotation = Quaternion.Euler(90f, 0f, 0f);
             var instance = Instantiate(_mushroomPrefab, spawnPos, rotation, parent);
             instance.Initialize(mushroomSO, sceneEffects);
+            instance.gameObject.name = string.IsNullOrEmpty(mushroomSO.mushroomName) == false ? mushroomSO.mushroomName : mushroomSO.name;
 
             if (isGood)
             {

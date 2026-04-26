@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MushroomToast : MonoBehaviour
@@ -7,12 +8,11 @@ public class MushroomToast : MonoBehaviour
     public Color Tint = Color.white;
     public float Duration = 4f;
 
-    private float _start;
+    private static readonly List<MushroomToast> s_active = new List<MushroomToast>();
 
     public static void Show(string title, string body, Color tint, float duration = 4f)
     {
         var go = new GameObject("MushroomToast");
-        DontDestroyOnLoad(go);
         var t = go.AddComponent<MushroomToast>();
         t.Title = title;
         t.Body = body;
@@ -25,7 +25,8 @@ public class MushroomToast : MonoBehaviour
 
     private float _activeElapsed;
 
-    private void Awake() => _start = Time.unscaledTime;
+    private void OnEnable() => s_active.Add(this);
+    private void OnDisable() => s_active.Remove(this);
 
     private void Update()
     {
@@ -59,13 +60,12 @@ public class MushroomToast : MonoBehaviour
             wordWrap = true
         };
 
-        var titleSize = titleStyle.CalcSize(new GUIContent(Title));
         var titleHeight = titleStyle.CalcHeight(new GUIContent(Title), width - 40f);
         var bodyHeight = hasBody ? bodyStyle.CalcHeight(new GUIContent(Body), width - 40f) : 0f;
         var totalHeight = titleHeight + bodyHeight + (hasBody ? 16f : 0f) + 32f;
 
         var x = (Screen.width - width) / 2f;
-        var y = 60f;
+        var y = 60f + StackOffset();
 
         var prev = GUI.color;
         GUI.color = new Color(0f, 0f, 0f, alpha * 0.65f);
@@ -84,5 +84,29 @@ public class MushroomToast : MonoBehaviour
         }
 
         GUI.color = prev;
+    }
+
+    private float StackOffset()
+    {
+        var offset = 0f;
+        for (var i = 0; i < s_active.Count; i++)
+        {
+            var other = s_active[i];
+            if (other == this) break;
+            if (other == null) continue;
+            offset += other.MeasuredHeight() + 12f;
+        }
+        return offset;
+    }
+
+    private float MeasuredHeight()
+    {
+        var width = Mathf.Min(Screen.width - 80f, 900f);
+        var titleStyle = new GUIStyle(GUI.skin.label) { fontSize = 26, fontStyle = FontStyle.Bold, wordWrap = true };
+        var bodyStyle = new GUIStyle(GUI.skin.label) { fontSize = 18, wordWrap = true };
+        var hasBody = string.IsNullOrEmpty(Body) == false;
+        var titleHeight = titleStyle.CalcHeight(new GUIContent(Title), width - 40f);
+        var bodyHeight = hasBody ? bodyStyle.CalcHeight(new GUIContent(Body), width - 40f) : 0f;
+        return titleHeight + bodyHeight + (hasBody ? 16f : 0f) + 32f;
     }
 }

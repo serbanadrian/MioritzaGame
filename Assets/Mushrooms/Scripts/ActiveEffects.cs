@@ -20,26 +20,24 @@ public class ActiveEffects : MonoBehaviour
 
     private static VolumeProfile ResolveOrCreateProfile()
     {
+        Volume target = null;
         var existing = GameObject.FindGameObjectWithTag("Post-Process");
-        if (existing != null)
+        if (existing != null) target = existing.GetComponent<Volume>();
+        if (target == null)
         {
-            var v = existing.GetComponent<Volume>();
-            if (v != null && v.profile != null)
+            foreach (var v in Object.FindObjectsByType<Volume>(FindObjectsSortMode.None))
             {
-                // Clone the profile so we don't modify a shared asset in-place (which
-                // can disable post-processing for other scenes/objects).
-                var cloned = Object.Instantiate(v.profile);
-                return EnsureOverrides(cloned);
+                if (v.profile != null) { target = v; break; }
             }
         }
 
-        foreach (var v in Object.FindObjectsByType<Volume>(FindObjectsSortMode.None))
+        if (target != null && target.profile != null)
         {
-            if (v.profile != null)
-            {
-                var cloned = Object.Instantiate(v.profile);
-                return EnsureOverrides(cloned);
-            }
+            // Clone so we don't mutate the shared asset, but re-assign the clone
+            // to the Volume so the renderer actually sees our overrides.
+            var cloned = Object.Instantiate(target.profile);
+            target.profile = cloned;
+            return EnsureOverrides(cloned);
         }
 
         var go = new GameObject("AutoPostProcessVolume");
@@ -85,10 +83,28 @@ public class ActiveEffects : MonoBehaviour
             gameObject.SetActive(true);
         }
 
-        if (consumeAudioSource != null) consumeAudioSource.Play();
-
         if (player == null) player = UnityEngine.Object.FindAnyObjectByType<PlayerContext>();
         if (player != null) player.InsanityChange(data.InsanityPoints);
+
+        ApplyMushroomEffects(data);
+    }
+
+    public void ApplyMushroomEffects(MushroomSO data)
+    {
+        if (data == null)
+        {
+            Debug.LogError($"{nameof(ActiveEffects)}.{nameof(ApplyMushroomEffects)} called with null {nameof(MushroomSO)}.");
+            return;
+        }
+
+        if (gameObject.activeSelf == false)
+        {
+            Debug.LogWarning($"{nameof(ActiveEffects)} GameObject was inactive — activating before applying effects.");
+            gameObject.SetActive(true);
+        }
+
+        if (consumeAudioSource != null) consumeAudioSource.Play();
+        if (player == null) player = UnityEngine.Object.FindAnyObjectByType<PlayerContext>();
 
         var roll = Random.Range(0f, 1f);
         var effectList = roll < data.chance ? data.goodEffects : data.badEffects;

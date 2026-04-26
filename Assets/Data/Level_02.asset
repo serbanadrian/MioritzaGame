@@ -17,7 +17,7 @@ MonoBehaviour:
     _spawnWeight: 1
   _minRooms: 9
   _maxRooms: 15
-  _exitSceneName: Level_01
+  _exitSceneName: Cutscene_Puzzle2
   _exitTint: {r: 1, g: 0.78, b: 0.25, a: 1}
   _exitScale: 1.4
   _sheepPrefab: {fileID: 9023123431942621618, guid: c929322bc5537a34dbc9652416c388db, type: 3}

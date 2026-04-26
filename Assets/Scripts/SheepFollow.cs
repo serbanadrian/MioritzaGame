@@ -1,4 +1,5 @@
 using UnityEngine;
+using MioritzaGame.Constants;
 
 public class SheepFollow : MonoBehaviour
 {
@@ -83,7 +84,7 @@ public class SheepFollow : MonoBehaviour
         style.fontStyle = FontStyle.Bold;
         style.normal.textColor = Color.white;
         style.alignment = TextAnchor.MiddleCenter;
-        GUI.Label(rect, "PRESS E TO FOLLOW YOU", style);
+        GUI.Label(rect, Texts.Sheep.PRESS_E_FOLLOW, style);
     }
 
     void FixedUpdate()

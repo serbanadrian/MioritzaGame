@@ -37,7 +37,7 @@ MonoBehaviour:
     _sortingOrder: 0
   - _prefab: {fileID: 7250460966925884090, guid: da9a0f957eb9be4489d8dfdc5bbe4add, type: 3}
     _positions:
-    - {x: -0.62, y: 0, z: 2.95}
+    - {x: 0.378, y: 1, z: -0.238}
     _spawnOffset: {x: -0.13669111, y: 1, z: 0.069610894}
     _facing: 0
     _direction: 3

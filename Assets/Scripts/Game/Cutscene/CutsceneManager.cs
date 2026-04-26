@@ -1,6 +1,8 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using MioritzaGame.Constants;
 
 namespace MioritzaGame.Game
 {
@@ -8,6 +10,7 @@ namespace MioritzaGame.Game
     {
         [SerializeField] private CutsceneConfiguration _configuration;
         [SerializeField] private bool _playOnStart = true;
+        [SerializeField] private string _nextSceneOnEnd;
 
         public static bool IsCutsceneActive { get; private set; }
 
@@ -51,12 +54,12 @@ namespace MioritzaGame.Game
             backdrop.transform.localScale = new Vector3(1.05f, 1.05f, 1f);
 
             _videoImage = CreateChild(canvasGo.transform, "VideoImage").AddComponent<RawImage>();
-            _videoImage.uvRect = new Rect(0.005f, 0.005f, 0.99f, 0.99f);
+            _videoImage.uvRect = new Rect(0f, 0f, 1f, 1f);
             _videoFitter = _videoImage.gameObject.AddComponent<AspectRatioFitter>();
-            _videoFitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+            _videoFitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
             _videoFitter.aspectRatio = 16f / 9f;
             Stretch(_videoImage.rectTransform);
-            _videoImage.transform.localScale = new Vector3(1.02f, 1.02f, 1f);
+            _videoImage.transform.localScale = Vector3.one;
 
             _imageImage = CreateChild(canvasGo.transform, "Image").AddComponent<RawImage>();
             _imageImage.uvRect = new Rect(0.005f, 0.005f, 0.99f, 0.99f);
@@ -84,7 +87,7 @@ namespace MioritzaGame.Game
             _hintText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             _hintText.fontSize = 14;
             _hintText.color = new Color(1f, 1f, 1f, 0.6f);
-            _hintText.text = "[Space / Click] continue    [Esc] skip";
+            _hintText.text = Texts.Cutscene.HINT;
             var hintRect = _hintText.rectTransform;
             hintRect.anchorMin = new Vector2(0f, 0f);
             hintRect.anchorMax = new Vector2(1f, 0f);
@@ -232,6 +235,11 @@ namespace MioritzaGame.Game
             _isPlaying = false;
             IsCutsceneActive = false;
             Time.timeScale = 1f;
+
+            if (string.IsNullOrEmpty(_nextSceneOnEnd) == false)
+            {
+                SceneManager.LoadScene(_nextSceneOnEnd);
+            }
         }
 
         private void Update()

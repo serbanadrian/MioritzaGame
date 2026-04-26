@@ -9,6 +9,7 @@ namespace MioritzaGame.Game
         [SerializeField] private Animator _animator;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private bool _invertControls;
 
         private static readonly int IsMovingHash = Animator.StringToHash("IsMoving");
         private static readonly int FacingBackHash = Animator.StringToHash("FacingBack");
@@ -40,6 +41,8 @@ namespace MioritzaGame.Game
         {
             _input.x = Input.GetAxisRaw("Horizontal");
             _input.y = Input.GetAxisRaw("Vertical");
+
+            if (_invertControls == true) _input = -_input;
 
             UpdateFacingAndAnimation();
         }

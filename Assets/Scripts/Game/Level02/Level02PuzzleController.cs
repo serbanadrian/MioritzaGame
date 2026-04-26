@@ -1,4 +1,5 @@
 using UnityEngine;
+using MioritzaGame.Constants;
 
 namespace MioritzaGame.Game
 {
@@ -26,7 +27,7 @@ namespace MioritzaGame.Game
             if (_apa != null) _apa.SetActive(false);
             if (_bridge != null) _bridge.SetActive(true);
 
-            MushroomToast.Show("THE WATER EVAPORATED", "The bridge is now passable.", new Color(0.7f, 1f, 0.7f), 2.2f);
+            MushroomToast.Show(Texts.Bridge.EVAPORATED_TITLE, Texts.Bridge.EVAPORATED_BODY, new Color(0.7f, 1f, 0.7f), 2.2f);
         }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using MioritzaGame.Constants;
 
 namespace MioritzaGame.Game
 {
@@ -52,7 +53,7 @@ namespace MioritzaGame.Game
             ctx.InsanityChange(amount);
 
             ScreenEffectOverlay.Show(new Color(0.1f, 0.25f, 0.6f, 0.28f), 0.6f, vignette: true, grain: false);
-            MushroomToast.Show("TOXIC SUBSTANCE", "Your insanity rises.", new Color(0.55f, 0.7f, 1f), 1.6f);
+            MushroomToast.Show(Texts.Apa.TOXIC_TITLE, Texts.Apa.TOXIC_BODY, new Color(0.55f, 0.7f, 1f), 1.6f);
         }
 
         private bool IsPointInPolygon(float x, float z)

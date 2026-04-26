@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 5821822680504139904}
   - component: {fileID: 5370071712019638207}
   - component: {fileID: 2822422963729764830}
+  - component: {fileID: 7791020671132611832}
   m_Layer: 0
   m_Name: Bridge
   m_TagString: Untagged
@@ -387,6 +388,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.BridgeTrigger
   _cutsceneClip: {fileID: 32900000, guid: 810840efe99d7404f98fa5881e627411, type: 3}
+--- !u!114 &7791020671132611832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6353535018838645163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d45f5e4b17c135e44826430122adfb6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.ExitGlow
+  _alwaysOn: 1
+  _glowColor: {r: 1.6, g: 1.4, b: 0.6, a: 1}
+  _pulseHz: 1.6
+  _lightIntensity: 8
+  _lightRange: 8
 --- !u!1 &7833756479542024102
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,7 +543,6 @@ MonoBehaviour:
   - {x: 17.279352, y: 0, z: -1.9030979}
   _minPoints: 100
   _maxPoints: 200
-  _cooldownSeconds: 0.6
 --- !u!1001 &2924566198013554306
 PrefabInstance:
   m_ObjectHideFlags: 0

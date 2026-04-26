@@ -11,6 +11,10 @@ namespace MioritzaGame.Game
         [SerializeField] private MushroomSpawner _mushroomSpawner;
         [SerializeField] private EntrySpawner _entrySpawner;
         [SerializeField] private Transform _player;
+        [SerializeField] private MushroomSO _guaranteedHintMushroom;
+        [SerializeField] private MushroomSO _fakeHintMushroom;
+        [SerializeField, Min(0)] private int _fakeHintCount = 2;
+        [SerializeField] private List<MushroomSO> _hintDisguisePool;
 
         private static readonly Direction[] AllDirections =
         {
@@ -60,7 +64,8 @@ namespace MioritzaGame.Game
                     var points = new List<Transform>();
                     foreach (Transform child in roomInstance.transform)
                         if (child.name.StartsWith("MushroomSpawn") == true) points.Add(child);
-                    if (points.Count > 0) _mushroomSpawner.SpawnMushroomsAtPoints(points, parent);
+                    var isSpawnCell = cell == Vector2Int.zero;
+                    if (points.Count > 0) _mushroomSpawner.SpawnMushroomsAtPoints(points, parent, isSpawnCell);
                     else _mushroomSpawner.SpawnMushroomsInRoom(position, parent);
                 }
 
@@ -89,6 +94,8 @@ namespace MioritzaGame.Game
 
             var exitCell = SpawnLevelExit(deadEnds, roomInstances, parent);
             SpawnSheep(cells, exitCell, roomCenters, roomInstances, doors, parent);
+            var hintCell = SpawnGuaranteedHint(cells, exitCell, roomCenters, roomInstances, parent);
+            SpawnFakeHints(cells, exitCell, hintCell, roomCenters, roomInstances, parent);
 
             foreach (var entry in doors)
             {
@@ -138,8 +145,8 @@ namespace MioritzaGame.Game
             transition.SetTargetScene(exitScene);
 
             doorGameObject.transform.localScale *= _configuration.ExitScale;
-            foreach (var renderer in doorGameObject.GetComponentsInChildren<SpriteRenderer>())
-                renderer.color = _configuration.ExitTint;
+
+            if (doorGameObject.GetComponent<ExitGlow>() == null) doorGameObject.AddComponent<ExitGlow>();
 
             return pick.cell;
         }
@@ -169,6 +176,104 @@ namespace MioritzaGame.Game
             }
             spawnPosition.y = 0.01f;
             Instantiate(prefab, spawnPosition, prefab.transform.rotation, parent);
+        }
+
+        private Vector2Int? SpawnGuaranteedHint(List<Vector2Int> cells, Vector2Int? exitCell, Dictionary<Vector2Int, Vector3> roomCenters, Dictionary<Vector2Int, GameObject> roomInstances, Transform parent)
+        {
+            if (_guaranteedHintMushroom == null) return null;
+            if (_mushroomSpawner == null) return null;
+
+            var candidates = new List<Vector2Int>();
+            foreach (var cell in cells)
+            {
+                if (cell == Vector2Int.zero) continue;
+                if (exitCell.HasValue == true && cell == exitCell.Value) continue;
+                candidates.Add(cell);
+            }
+            if (candidates.Count == 0) return null;
+
+            var pick = candidates[Random.Range(0, candidates.Count)];
+            if (roomCenters.TryGetValue(pick, out var center) == false) return null;
+
+            var spawnPosition = PickFreeSpawnPoint(pick, center, roomInstances);
+            _mushroomSpawner.SpawnSingle(DisguiseHintData(_guaranteedHintMushroom), spawnPosition, parent, isGood: true);
+            return pick;
+        }
+
+        private void SpawnFakeHints(List<Vector2Int> cells, Vector2Int? exitCell, Vector2Int? hintCell, Dictionary<Vector2Int, Vector3> roomCenters, Dictionary<Vector2Int, GameObject> roomInstances, Transform parent)
+        {
+            if (_fakeHintMushroom == null) return;
+            if (_mushroomSpawner == null) return;
+            if (_fakeHintCount <= 0) return;
+
+            var candidates = new List<Vector2Int>();
+            foreach (var cell in cells)
+            {
+                if (cell == Vector2Int.zero) continue;
+                if (exitCell.HasValue == true && cell == exitCell.Value) continue;
+                if (hintCell.HasValue == true && cell == hintCell.Value) continue;
+                candidates.Add(cell);
+            }
+            if (candidates.Count == 0) return;
+
+            var spawnCount = Mathf.Min(_fakeHintCount, candidates.Count);
+            for (var i = 0; i < spawnCount; i++)
+            {
+                var index = Random.Range(0, candidates.Count);
+                var pick = candidates[index];
+                candidates.RemoveAt(index);
+
+                if (roomCenters.TryGetValue(pick, out var center) == false) continue;
+                var spawnPosition = PickFreeSpawnPoint(pick, center, roomInstances);
+                _mushroomSpawner.SpawnSingle(DisguiseHintData(_fakeHintMushroom), spawnPosition, parent, isGood: true);
+            }
+        }
+
+        private MushroomSO DisguiseHintData(MushroomSO source)
+        {
+            if (source == null) return null;
+            if (_hintDisguisePool == null || _hintDisguisePool.Count == 0) return source;
+
+            var pick = _hintDisguisePool[Random.Range(0, _hintDisguisePool.Count)];
+            if (pick == null || string.IsNullOrEmpty(pick.mushroomName) == true) return source;
+
+            var clone = Object.Instantiate(source);
+            clone.mushroomName = pick.mushroomName;
+            clone.sprite = pick.sprite != null ? pick.sprite : source.sprite;
+            return clone;
+        }
+
+        private Vector3 PickFreeSpawnPoint(Vector2Int cell, Vector3 fallbackCenter, Dictionary<Vector2Int, GameObject> roomInstances)
+        {
+            var existing = Object.FindObjectsByType<Mushroom>(FindObjectsSortMode.None);
+            if (roomInstances.TryGetValue(cell, out var roomInstance) == true)
+            {
+                var points = new List<Transform>();
+                foreach (Transform child in roomInstance.transform)
+                    if (child.name.StartsWith("MushroomSpawn") == true) points.Add(child);
+
+                while (points.Count > 0)
+                {
+                    var index = Random.Range(0, points.Count);
+                    var candidate = points[index];
+                    points.RemoveAt(index);
+                    if (IsPositionFree(candidate.position, existing, 1f) == true) return candidate.position;
+                }
+            }
+            return fallbackCenter;
+        }
+
+        private static bool IsPositionFree(Vector3 position, Mushroom[] existing, float minDistance)
+        {
+            var minSq = minDistance * minDistance;
+            for (var i = 0; i < existing.Length; i++)
+            {
+                if (existing[i] == null) continue;
+                var delta = existing[i].transform.position - position;
+                delta.y = 0f;
+                if (delta.sqrMagnitude < minSq) return false;
+            }
+            return true;
         }
 
         private RoomData PickWeightedRoom()

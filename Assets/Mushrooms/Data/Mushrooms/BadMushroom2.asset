@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ea31dda1a0a2934d8e15a77df3be675, type: 3}
   m_Name: BadMushroom2
   m_EditorClassIdentifier: Assembly-CSharp::MushroomSO
-  mushroomName: 
+  mushroomName: Destroying Angel
   sprite: {fileID: -1116986639, guid: 1eb8151c978d6da41970eb3a02334f97, type: 3}
+  pickupHint: 
   insanityPoints: 250
   type: 1
+  cleansToxicWater: 0
   chance: 1
   goodEffects:
   - {fileID: 11400000, guid: 2117ec3be08231342adcbc904f8ff709, type: 2}

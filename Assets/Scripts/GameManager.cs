@@ -6,6 +6,8 @@ namespace MioritzaGame
 {
     public class GameManager : MonoBehaviour
     {
+        public static bool OpenCreditsOnLoad;
+
         [Header("Buttons")]
         [SerializeField] private Button playBtn;
         [SerializeField] private Button creditsBtn;
@@ -57,15 +59,21 @@ namespace MioritzaGame
                 volumeSlider.onValueChanged.AddListener((v) => MioritzaGame.Audio.AudioSettings.SetMasterVolume(v));
             }
 
-            // Make sure only the main canvas is active at start
-            ShowCanvas(mainCanvas);
+            if (OpenCreditsOnLoad == true)
+            {
+                OpenCreditsOnLoad = false;
+                OnCreditsPressed();
+            }
+            else
+            {
+                ShowCanvas(mainCanvas);
+            }
         }
 
         private void OnPlayPressed()
         {
-            // You can add scene loading here, e.g., SceneManager.LoadScene(1);
             Debug.Log("Play Button Pressed");
-            SceneManager.LoadScene("Level_01");
+            SceneManager.LoadScene("Cutscene_Intro");
         }
 
         private void OnCreditsPressed()

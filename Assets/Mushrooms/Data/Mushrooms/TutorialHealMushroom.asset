@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MushroomSO
   mushroomName: Healing Mushroom
   sprite: {fileID: 607552462, guid: 1eb8151c978d6da41970eb3a02334f97, type: 3}
+  pickupHint: 
   insanityPoints: -400
   type: 0
+  cleansToxicWater: 0
   chance: 1
   goodEffects: []
   badEffects: []

@@ -12,11 +12,10 @@ public class ScreenEffectOverlay : MonoBehaviour
     public static ScreenEffectOverlay Show(Color tint, float duration, bool vignette, bool grain)
     {
         var go = new GameObject("ScreenEffectOverlay");
-        DontDestroyOnLoad(go);
         var o = go.AddComponent<ScreenEffectOverlay>();
         o.TintColor = tint;
         o.Duration = duration;
-        o.ShowVignette = vignette;
+        o.ShowVignette = false;
         o.ShowGrain = grain;
         return o;
     }

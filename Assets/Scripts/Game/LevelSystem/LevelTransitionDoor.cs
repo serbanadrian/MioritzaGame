@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using MioritzaGame.Constants;
 
 namespace MioritzaGame.Game
 {
@@ -70,15 +71,15 @@ namespace MioritzaGame.Game
             labelStyle.wordWrap = true;
             labelStyle.normal.textColor = Color.white;
             GUI.Label(new Rect(rect.x + 20f, rect.y + 20f, w - 40f, 60f),
-                "You didn't take the sheep with you.\nWould you like to continue?", labelStyle);
+                Texts.LevelExit.SHEEP_REMINDER, labelStyle);
 
-            if (GUI.Button(new Rect(rect.x + 60f, rect.y + 100f, 140f, 36f), "OK") == true)
+            if (GUI.Button(new Rect(rect.x + 60f, rect.y + 100f, 140f, 36f), Texts.LevelExit.OK) == true)
             {
                 _showConfirm = false;
                 Time.timeScale = 1f;
                 LoadTargetScene();
             }
-            if (GUI.Button(new Rect(rect.x + w - 200f, rect.y + 100f, 140f, 36f), "Cancel") == true)
+            if (GUI.Button(new Rect(rect.x + w - 200f, rect.y + 100f, 140f, 36f), Texts.LevelExit.CANCEL) == true)
             {
                 _showConfirm = false;
                 Time.timeScale = 1f;

@@ -19,6 +19,10 @@ public class PlayerContext : MonoBehaviour
     [Header("Game Over")]
     [SerializeField] private VideoClip _gameOverVideo;
 
+    [Header("Startup Effects")]
+    [Tooltip("If set, the visual+audio effects of this mushroom fire on Start (no extra insanity added). Use to make the player start the level already feeling sick.")]
+    [SerializeField] private MushroomSO _startupMushroom;
+
     private bool _dead;
 
     public int CurrentLevel => Mathf.Clamp(Mathf.FloorToInt(_insanityPoints / _pointsPerLevel), 0, _maxLevel);
@@ -29,6 +33,18 @@ public class PlayerContext : MonoBehaviour
     private void Awake()
     {
         if (_startingInsanityPoints >= 0f) _insanityPoints = _startingInsanityPoints;
+    }
+
+    private void Start()
+    {
+        if (_startupMushroom == null) return;
+        var effects = UnityEngine.Object.FindAnyObjectByType<ActiveEffects>(FindObjectsInactive.Include);
+        if (effects == null)
+        {
+            Debug.LogWarning($"{nameof(PlayerContext)} cannot fire {nameof(_startupMushroom)} effects — no {nameof(ActiveEffects)} in scene.");
+            return;
+        }
+        effects.ApplyMushroomEffects(_startupMushroom);
     }
 
     public void InsanityChange(float value)
@@ -55,26 +71,26 @@ public class PlayerContext : MonoBehaviour
 
         var prev = GUI.color;
 
-        // if (_showNauseaOverlay == true)
-        // {
-        //     var pulse = 0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * 1.8f);
-        //     var nauseaAlpha = Mathf.Lerp(0.08f, 0.32f, level / (float)_maxLevel) * (0.6f + 0.4f * pulse);
-        //     GUI.color = new Color(0.55f, 0.0f, 0.05f, nauseaAlpha);
-        //     GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Texture2D.whiteTexture);
+        if (_showNauseaOverlay == true)
+        {
+            var pulse = 0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * 1.8f);
+            var nauseaAlpha = Mathf.Lerp(0.08f, 0.32f, level / (float)_maxLevel) * (0.6f + 0.4f * pulse);
+            GUI.color = new Color(0.55f, 0.0f, 0.05f, nauseaAlpha);
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Texture2D.whiteTexture);
 
-        //     var jitter = Mathf.Lerp(0f, 6f, level / (float)_maxLevel) * (pulse - 0.5f);
-        //     var greenTint = new Color(0.0f, 0.4f, 0.15f, nauseaAlpha * 0.4f);
-        //     GUI.color = greenTint;
-        //     GUI.DrawTexture(new Rect(jitter, -jitter, Screen.width, Screen.height), Texture2D.whiteTexture);
-        // }
+            var jitter = Mathf.Lerp(0f, 6f, level / (float)_maxLevel) * (pulse - 0.5f);
+            var greenTint = new Color(0.0f, 0.4f, 0.15f, nauseaAlpha * 0.4f);
+            GUI.color = greenTint;
+            GUI.DrawTexture(new Rect(jitter, -jitter, Screen.width, Screen.height), Texture2D.whiteTexture);
+        }
 
-        // var iconIndex = Mathf.Clamp(level - 1, 0, _levelIcons.Length - 1);
-        // var icon = _levelIcons.Length > iconIndex ? _levelIcons[iconIndex] : null;
-        // if (icon != null)
-        // {
-        //     GUI.color = Color.white;
-        //     GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), icon, ScaleMode.StretchToFill, true);
-        // }
+        var iconIndex = Mathf.Clamp(level - 1, 0, _levelIcons.Length - 1);
+        var icon = _levelIcons.Length > iconIndex ? _levelIcons[iconIndex] : null;
+        if (icon != null)
+        {
+            GUI.color = Color.white;
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), icon, ScaleMode.StretchToFill, true);
+        }
 
         GUI.color = prev;
     }

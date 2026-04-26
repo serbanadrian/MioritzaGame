@@ -16,7 +16,7 @@ MonoBehaviour:
   - _roomPrefab: {fileID: 2016904999416334934, guid: 8e6181501b688474d95b7c0e75dbb364, type: 3}
     _spawnWeight: 1
   _minRooms: 5
-  _maxRooms: 7
+  _maxRooms: 9
   _exitSceneName: Level_02
   _exitTint: {r: 1, g: 0.78, b: 0.25, a: 1}
   _exitScale: 1.4
