@@ -44,6 +44,36 @@ namespace MioritzaGame
             }
         }
 
+        public void SpawnMushroomsAtPoints(List<Transform> spawnPoints, Transform parent = null)
+        {
+            if (_mushroomPrefab == null) return;
+            if (spawnPoints == null || spawnPoints.Count == 0) return;
+
+            var available = new List<Transform>(spawnPoints);
+            var count = Random.Range(0, available.Count + 1);
+
+            for (int i = 0; i < count; i++)
+            {
+                int pickIndex = Random.Range(0, available.Count);
+                var point = available[pickIndex];
+                available.RemoveAt(pickIndex);
+
+                bool isGood = (_goodMushrooms != null && _goodMushrooms.Count > 0)
+                    && (_badMushrooms == null || _badMushrooms.Count == 0 || Random.value < 0.6f);
+                var pool = isGood ? _goodMushrooms : _badMushrooms;
+                if (pool == null || pool.Count == 0) continue;
+
+                var mushroomSO = pool[Random.Range(0, pool.Count)];
+                var spawnPos = point.position;
+                spawnPos.y = _spawnYOffset;
+
+                var rotation = Quaternion.Euler(90f, 0f, 0f);
+                var instance = Instantiate(_mushroomPrefab, spawnPos, rotation, parent);
+                instance.Initialize(mushroomSO, sceneEffects);
+                if (isGood == true) instance.gameObject.tag = "GoodMushroom";
+            }
+        }
+
         private void SpawnMushroom(Vector3 roomCenter, List<MushroomSO> options, Transform parent, bool isGood, PolygonDeadZone spawnZone)
         {
             if (_mushroomPrefab == null || options == null || options.Count == 0) return;

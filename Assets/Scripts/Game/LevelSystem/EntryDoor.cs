@@ -37,14 +37,16 @@ namespace MioritzaGame.Game
             _nextTriggerTime = cooldown;
             if (_targetDoor != null) _targetDoor.SuppressUntil(cooldown);
 
-            controller.Spawn(_targetSpawn, _targetFacing);
-
-            var cam = Camera.main;
-            if (cam != null)
+            ScreenFader.Instance.TransitionTo(() =>
             {
-                var current = cam.transform.position;
-                cam.transform.position = new Vector3(_targetCameraPosition.x, current.y, _targetCameraPosition.z);
-            }
+                controller.Spawn(_targetSpawn, _targetFacing);
+                var cam = Camera.main;
+                if (cam != null)
+                {
+                    var current = cam.transform.position;
+                    cam.transform.position = new Vector3(_targetCameraPosition.x, current.y, _targetCameraPosition.z);
+                }
+            });
         }
     }
 }

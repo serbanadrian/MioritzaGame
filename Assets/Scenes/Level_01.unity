@@ -316,6 +316,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.Game.CameraFollow
   _target: {fileID: 2007530336}
   _smoothTime: 0.2
+--- !u!1 &377917584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 377917586}
+  - component: {fileID: 377917585}
+  m_Layer: 0
+  m_Name: MushroomSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &377917585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377917584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb23f583dc8b424e8d1ba483758d016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MioritzaGame.MushroomSpawner
+  _mushroomPrefab: {fileID: 6570006677936080797, guid: 02d71f5abbe07574a8742ab060935c6f, type: 3}
+  _goodMushrooms:
+  - {fileID: 11400000, guid: 60af127528eb8b24b97f497b807585ab, type: 2}
+  - {fileID: 11400000, guid: 0c2c19cc107ef7d43b6b86fb713d375f, type: 2}
+  - {fileID: 11400000, guid: 09237821fd4392a46ace693664d9d31a, type: 2}
+  _badMushrooms:
+  - {fileID: 11400000, guid: 9be887bcec9a5df43a7db3cf74d4a4a8, type: 2}
+  - {fileID: 11400000, guid: 96951ca2e23cc3c429e9ee8affc9aaa1, type: 2}
+  - {fileID: 11400000, guid: 94063e7b1ae4fc249ae70e41c3da6ae6, type: 2}
+  _minGoodPerRoom: 0
+  _maxGoodPerRoom: 1
+  _minBadPerRoom: 1
+  _maxBadPerRoom: 2
+  _spawnZone: {fileID: 0}
+  _spawnAreaHalfSize: 48
+  _spawnYOffset: 0.5
+  sceneEffects: {fileID: 0}
+--- !u!4 &377917586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377917584}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,6 +613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActiveEffects
   player: {fileID: 2007530337}
+  consumeAudioSource: {fileID: 0}
 --- !u!1 &1221087460
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +646,7 @@ MonoBehaviour:
   _configuration: {fileID: 11400000, guid: 5a9aea842b8568948b77e5dea2942a1a, type: 2}
   _roomsParent: {fileID: 0}
   _cellSize: 150
-  _mushroomSpawner: {fileID: 0}
+  _mushroomSpawner: {fileID: 377917585}
   _entrySpawner: {fileID: 201710327}
   _player: {fileID: 2007530336}
 --- !u!4 &1221087462
@@ -601,6 +663,54 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 201710328}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1814892531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1814892533}
+  - component: {fileID: 1814892532}
+  m_Layer: 0
+  m_Name: TutorialMushroomSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1814892532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814892531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cb6137b80f3a1b4f84a4fad221d4469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialMushroomSpawner
+  _mushroomPrefab: {fileID: 6570006677936080797, guid: 02d71f5abbe07574a8742ab060935c6f, type: 3}
+  _mushroomData: {fileID: 11400000, guid: 4a6450937d6a3344d98a85d89d7c516d, type: 2}
+  _spawnDelay: 1
+  _offsetFromPlayer: {x: 3, y: 0, z: 0}
+--- !u!4 &1814892533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814892531}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1863941356
@@ -680,6 +790,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
+      propertyPath: _gameOverVideo
+      value: 
+      objectReference: {fileID: 32900000, guid: 09d025ab720221e4b99b753c0831a2af, type: 3}
+    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
+      propertyPath: _startingInsanityPoints
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
+      propertyPath: '_levelIcons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2800000, guid: 50158375c04d0c640bd3f75c1b3f62f9, type: 3}
+    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
+      propertyPath: '_levelIcons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2800000, guid: b072e54de0269414ba71956480b05514, type: 3}
+    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
+      propertyPath: '_levelIcons.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2800000, guid: 9ce748020653e8543846b1d8313f4acb, type: 3}
+    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
+      propertyPath: '_levelIcons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2800000, guid: 1f6ee1e45e4a917449d6a5a67596ca9f, type: 3}
+    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
+      propertyPath: '_levelIcons.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2800000, guid: 4663246728de2bd4c891c11584f94344, type: 3}
+    - target: {fileID: 4633676807101446351, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
+      propertyPath: '_levelIcons.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2800000, guid: b3198b770143bcd43a5a330c8368b0d4, type: 3}
     - target: {fileID: 6986643213429564109, guid: 1168d369a55b86a4ea4d31dbda7039b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -740,3 +882,5 @@ SceneRoots:
   - {fileID: 2589391784041742686}
   - {fileID: 1863941358}
   - {fileID: 538965783}
+  - {fileID: 377917586}
+  - {fileID: 1814892533}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MushroomSO
   mushroomName: Pleurotus
   sprite: {fileID: -549477642, guid: 1eb8151c978d6da41970eb3a02334f97, type: 3}
-  insanityPoints: 2
+  insanityPoints: -200
   type: 0
   chance: 1
   goodEffects:
